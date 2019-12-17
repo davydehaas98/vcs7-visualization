@@ -54,21 +54,22 @@ class Cone:
         self.__cone_mapper = vtkPolyDataMapper()
         self.__cone_actor = vtkActor()
 
-    def setup_cone(self, position):
+    def setup_cone(self, radius, height, resolution, direction, center, color):
         """Setup the cone"""
 
         # Set cone properties
-        self.__cone.SetRadius(1.0)
-        self.__cone.SetHeight(2.0)
-        self.__cone.SetResolution(50)
-        self.__cone.SetCenter(position)
+        self.__cone.SetRadius(radius)
+        self.__cone.SetHeight(height)
+        self.__cone.SetResolution(resolution)
+        self.__cone.SetDirection(direction)
+        self.__cone.SetCenter(center)
 
         # Set cone mapper
         self.__cone_mapper.SetInputConnection(self.__cone.GetOutputPort())
 
         # Set cone actor
         self.__cone_actor.SetMapper(self.__cone_mapper)
-        self.__cone_actor.GetProperty().SetColor(1.0, 0.0, 0.0)
+        self.__cone_actor.GetProperty().SetColor(color)
 
         # Add cone actor to the window renderer
         self.__renderer.AddActor(self.__cone_actor)
@@ -77,8 +78,18 @@ class Cone:
 # Run the program
 if __name__ == '__main__':
     window_renderer = WindowRenderer()
-    Cone(window_renderer.renderer).setup_cone((2.0, 2.0, 2.0))
-    Cone(window_renderer.renderer).setup_cone((0.0, 0.0, 0.0))
+    Cone(window_renderer.renderer).setup_cone(
+        1.0, 3.0, 40,     # radius, height, resolution
+        (0.0, 0.0, 0.0),  # direction
+        (0.0, 0.0, 0.0),  # center
+        (1.0, 0.0, 0.0)   # color
+    )
+    Cone(window_renderer.renderer).setup_cone(
+        0.5, 2.0, 10,     # radius, height, resolution
+        (1.0, 1.0, 1.0),  # direction
+        (2.0, 2.0, 2.0),  # center
+        (0.0, 1.0, 0.0)   # color
+    )
 
     window_renderer.setup_render_window()
     window_renderer.start_render_window()
