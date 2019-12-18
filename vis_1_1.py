@@ -1,8 +1,9 @@
 from vtkmodules.all import (
-    vtkConeSource, vtkPolyDataMapper, vtkActor,
+    vtkConeSource, vtkPolyDataMapper,
+    vtkActor, vtkProperty,
 )
 
-from library.window_renderer import WindowRenderer
+from utils.window_renderer import WindowRenderer
 
 
 class Cone:
@@ -12,6 +13,7 @@ class Cone:
         self.__renderer = renderer
         
         self.__cone = vtkConeSource()
+        self.__cone_property = vtkProperty()
         self.__cone_mapper = vtkPolyDataMapper()
         self.__cone_actor = vtkActor()
 
@@ -25,12 +27,18 @@ class Cone:
         self.__cone.SetDirection(direction)
         self.__cone.SetCenter(center)
 
+        # Set cone property
+        self.__cone_property.SetColor(color)
+        self.__cone_property.SetDiffuse(0.7)
+        self.__cone_property.SetSpecular(0.4)
+        self.__cone_property.SetSpecularPower(20)
+
         # Set cone mapper
         self.__cone_mapper.SetInputConnection(self.__cone.GetOutputPort())
 
         # Set cone actor
+        self.__cone_actor.SetProperty(self.__cone_property)
         self.__cone_actor.SetMapper(self.__cone_mapper)
-        self.__cone_actor.GetProperty().SetColor(color)
 
         # Add cone actor to the window renderer
         self.__renderer.AddActor(self.__cone_actor)

@@ -2,7 +2,7 @@ from vtkmodules.all import (
     vtkTextSource, vtkPolyDataMapper, vtkActor,
 )
 
-from library.window_renderer import WindowRenderer
+from utils.window_renderer import WindowRenderer
 
 
 class Text:
