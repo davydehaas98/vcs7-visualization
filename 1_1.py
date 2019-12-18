@@ -57,7 +57,7 @@ class Cone:
     def setup_cone(self, radius, height, resolution, direction, center, color):
         """Setup the cone"""
 
-        # Set cone properties
+        # Set cone
         self.__cone.SetRadius(radius)
         self.__cone.SetHeight(height)
         self.__cone.SetResolution(resolution)
