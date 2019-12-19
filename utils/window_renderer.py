@@ -33,7 +33,7 @@ class WindowRenderer:
         # Set light
         self.__light.SetColor(1.0, 1.0, 1.0)
         self.__light.SetFocalPoint(0.0, 0.0, 0.0)
-        self.__light.SetPosition(0.0, 0.0, 50.0)
+        self.__light.SetPosition(0.0, 0.0, 500.0)
         self.__light.PositionalOn()
 
         # Set renderer
