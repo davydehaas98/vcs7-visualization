@@ -39,5 +39,5 @@ if __name__ == '__main__':
 
     Text(window_renderer.renderer).setup("Hello World")
 
-    window_renderer.setup_render_window()
+    window_renderer.setup_render_window((0.0, 0.0, 500.0))
     window_renderer.start_render_window()

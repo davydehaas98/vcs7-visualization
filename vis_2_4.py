@@ -36,7 +36,7 @@ class TextureReader:
         self.__actor.SetTexture(self.__texture)
         self.__actor.SetMapper(self.__mapper)
 
-        # Add text actor to the window renderer
+        # Add actor to the window renderer
         self.__renderer.AddActor(self.__actor)
 
 
@@ -46,5 +46,5 @@ if __name__ == '__main__':
 
     TextureReader(window_renderer.renderer).setup("images/marbles.bmp")
 
-    window_renderer.setup_render_window()
+    window_renderer.setup_render_window((0.0, 0.0, 5.0))
     window_renderer.start_render_window()

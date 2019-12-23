@@ -17,13 +17,13 @@ class WindowRenderer:
         self.__render_window_interactor = vtkRenderWindowInteractor()
         self.__interactor_style_trackball_camera = vtkInteractorStyleTrackballCamera()
 
-    def setup_render_window(self):
+    def setup_render_window(self, position):
         """Setup the render window"""
 
         # Set camera
-        self.__camera.SetClippingRange(0.1, 500.0)
+        self.__camera.SetClippingRange(1.0, 2000.0)
         self.__camera.SetFocalPoint(0.0, 0.0, 0.0)
-        self.__camera.SetPosition(0.0, 0.0, 50.0)
+        self.__camera.SetPosition(position)
         self.__camera.SetViewUp(1.0, 1.0, 1.0)
         self.__camera.Zoom(1.0)
         # Divides the camera's distance from the focal point by the given dolly value
@@ -33,7 +33,7 @@ class WindowRenderer:
         # Set light
         self.__light.SetColor(1.0, 1.0, 1.0)
         self.__light.SetFocalPoint(0.0, 0.0, 0.0)
-        self.__light.SetPosition(0.0, 0.0, 500.0)
+        self.__light.SetPosition(position)
         self.__light.PositionalOn()
 
         # Set renderer
