@@ -1,7 +1,7 @@
 from vtkmodules.all import (
     vtkOBJReader, vtkProperty,
-    vtkTransform, vtkPolyDataMapper,
-    vtkActor,
+    vtkTransform, vtkTransformPolyDataFilter,
+    vtkPolyDataMapper, vtkActor,
 )
 
 from utils.window_renderer import WindowRenderer
@@ -13,40 +13,47 @@ class ObjectReader:
         # Renderer variable is needed to add the actor
         self.__renderer = renderer
 
-        self.__object_reader = vtkOBJReader()
-        self.__object_reader_property = vtkProperty()
-        self.__object_reader_transform = vtkTransform()
-        self.__object_reader_mapper = vtkPolyDataMapper()
-        self.__object_reader_actor = vtkActor()
+        self.__reader = vtkOBJReader()
+        self.__reader_transform = vtkTransform()
+        self.__reader_transform_filter = vtkTransformPolyDataFilter()
+        self.__reader_property = vtkProperty()
+        self.__reader_mapper = vtkPolyDataMapper()
+        self.__reader_actor = vtkActor()
 
-    def setup_object_reader(self, file_name):
+    def setup(self, file_name):
         """Setup the object reader"""
 
         # Set object reader
-        self.__object_reader.SetFileName(file_name)
-
-        # Set object reader property
-        self.__object_reader_property.SetColor(1.0, 0.0, 0.0)
+        self.__reader.SetFileName(file_name)
 
         # Set object reader transform
-        self.__object_reader_transform.Translate(1.0, 0.0, 0.0)
+        self.__reader_transform.RotateWXYZ(0.0, 0.0, 0.0, 0.0)
+        self.__reader_transform.Translate(0.0, 0.0, 0.0)
+
+        # Set object reader transform filter
+        self.__reader_transform_filter.SetInputConnection(self.__reader.GetOutputPort())
+        self.__reader_transform_filter.SetTransform(self.__reader_transform)
+        self.__reader_transform_filter.Update()
+
+        # Set object reader property
+        self.__reader_property.SetColor(1.0, 0.0, 0.0)
 
         # Set object reader mapper
-        self.__object_reader_mapper.SetInputConnection(self.__object_reader.GetOutputPort())
+        self.__reader_mapper.SetInputConnection(self.__reader_transform_filter.GetOutputPort())
 
         # Set object reader actor
-        self.__object_reader_actor.SetProperty(self.__object_reader_property)
-        self.__object_reader_actor.SetMapper(self.__object_reader_mapper)
+        self.__reader_actor.SetProperty(self.__reader_property)
+        self.__reader_actor.SetMapper(self.__reader_mapper)
 
         # Add object reader actor to the window renderer
-        self.__renderer.AddActor(self.__object_reader_actor)
+        self.__renderer.AddActor(self.__reader_actor)
 
 
 # Run the program
 if __name__ == '__main__':
     window_renderer = WindowRenderer()
 
-    ObjectReader(window_renderer.renderer).setup_object_reader("objects/cactus.obj")
+    ObjectReader(window_renderer.renderer).setup("objects/cactus.obj")
 
     window_renderer.setup_render_window()
     window_renderer.start_render_window()

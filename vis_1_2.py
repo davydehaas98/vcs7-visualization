@@ -12,32 +12,32 @@ class Text:
         # Renderer variable is needed to add the actor
         self.__renderer = renderer
 
-        self.__text = vtkTextSource()
-        self.__text_mapper = vtkPolyDataMapper()
-        self.__text_actor = vtkActor()
+        self.__source = vtkTextSource()
+        self.__source_mapper = vtkPolyDataMapper()
+        self.__source_actor = vtkActor()
 
-    def setup_text(self, text):
+    def setup(self, text):
         """Setup text"""
 
         # Set text
-        self.__text.SetText(text)
-        self.__text.SetForegroundColor(1.0, 0.0, 0.0)
+        self.__source.SetText(text)
+        self.__source.SetForegroundColor(1.0, 0.0, 0.0)
 
         # Set text mapper
-        self.__text_mapper.SetInputConnection(self.__text.GetOutputPort())
+        self.__source_mapper.SetInputConnection(self.__source.GetOutputPort())
 
         # Set text actor
-        self.__text_actor.SetMapper(self.__text_mapper)
+        self.__source_actor.SetMapper(self.__source_mapper)
 
         # Add text actor to the window renderer
-        self.__renderer.AddActor(self.__text_actor)
+        self.__renderer.AddActor(self.__source_actor)
 
 
 # Run the program
 if __name__ == '__main__':
     window_renderer = WindowRenderer()
 
-    Text(window_renderer.renderer).setup_text("Hello World")
+    Text(window_renderer.renderer).setup("Hello World")
 
     window_renderer.setup_render_window()
     window_renderer.start_render_window()

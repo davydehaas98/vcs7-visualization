@@ -13,48 +13,48 @@ class Cylinder:
         # Renderer variable is needed to add the actor
         self.__renderer = renderer
 
-        self.__cylinder = vtkCylinderSource()
-        self.__cylinder_property = vtkProperty()
-        self.__cylinder_mapper = vtkPolyDataMapper()
-        self.__cylinder_actor = vtkActor()
+        self.__source = vtkCylinderSource()
+        self.__source_property = vtkProperty()
+        self.__source_mapper = vtkPolyDataMapper()
+        self.__source_actor = vtkActor()
 
-    def setup_cylinder(self, radius, height, resolution, center, color):
+    def setup(self, radius, height, resolution, center, color):
         """Setup the cylinder"""
 
         # Set cylinder
-        self.__cylinder.SetRadius(radius)
-        self.__cylinder.SetHeight(height)
-        self.__cylinder.SetResolution(resolution)
-        self.__cylinder.SetCenter(center)
+        self.__source.SetRadius(radius)
+        self.__source.SetHeight(height)
+        self.__source.SetResolution(resolution)
+        self.__source.SetCenter(center)
 
         # Set cylinder property
-        self.__cylinder_property.SetColor(color)
-        self.__cylinder_property.SetDiffuse(0.7)
-        self.__cylinder_property.SetSpecular(0.4)
-        self.__cylinder_property.SetSpecularPower(20)
+        self.__source_property.SetColor(color)
+        self.__source_property.SetDiffuse(0.7)
+        self.__source_property.SetSpecular(0.4)
+        self.__source_property.SetSpecularPower(20)
 
         # Set cylinder mapper
-        self.__cylinder_mapper.SetInputConnection(self.__cylinder.GetOutputPort())
+        self.__source_mapper.SetInputConnection(self.__source.GetOutputPort())
 
         # Set cylinder actor
-        self.__cylinder_actor.SetProperty(self.__cylinder_property)
-        self.__cylinder_actor.SetMapper(self.__cylinder_mapper)
+        self.__source_actor.SetProperty(self.__source_property)
+        self.__source_actor.SetMapper(self.__source_mapper)
 
         # Add cylinder actor to the window renderer
-        self.__renderer.AddActor(self.__cylinder_actor)
+        self.__renderer.AddActor(self.__source_actor)
 
 
 # Run the program
 if __name__ == '__main__':
     window_renderer = WindowRenderer()
 
-    Cylinder(window_renderer.renderer).setup_cylinder(
+    Cylinder(window_renderer.renderer).setup(
         4.0, 4.0, 40,       # radius, height, resolution
         (5.0, 0.0, 0.0),    # center
         (1.0, 0.0, 0.0)     # color
     )
 
-    Cone(window_renderer.renderer).setup_cone(
+    Cone(window_renderer.renderer).setup(
         3.0, 12.0, 120,     # radius, height, resolution
         (0.0, 0.0, 0.0),    # direction
         (0.0, 0.0, 0.0),    # center
