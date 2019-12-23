@@ -15,8 +15,8 @@ class Cylinder:
 
         self.__source = vtkCylinderSource()
         self.__source_property = vtkProperty()
-        self.__source_mapper = vtkPolyDataMapper()
-        self.__source_actor = vtkActor()
+        self.__mapper = vtkPolyDataMapper()
+        self.__actor = vtkActor()
 
     def setup(self, radius, height, resolution, center, color):
         """Setup the cylinder"""
@@ -33,15 +33,15 @@ class Cylinder:
         self.__source_property.SetSpecular(0.4)
         self.__source_property.SetSpecularPower(20)
 
-        # Set cylinder mapper
-        self.__source_mapper.SetInputConnection(self.__source.GetOutputPort())
+        # Set mapper
+        self.__mapper.SetInputConnection(self.__source.GetOutputPort())
 
-        # Set cylinder actor
-        self.__source_actor.SetProperty(self.__source_property)
-        self.__source_actor.SetMapper(self.__source_mapper)
+        # Set actor
+        self.__actor.SetProperty(self.__source_property)
+        self.__actor.SetMapper(self.__mapper)
 
-        # Add cylinder actor to the window renderer
-        self.__renderer.AddActor(self.__source_actor)
+        # Add actor to the window renderer
+        self.__renderer.AddActor(self.__actor)
 
 
 # Run the program

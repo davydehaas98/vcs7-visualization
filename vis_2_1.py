@@ -23,29 +23,30 @@ class ObjectReader:
     def setup(self, file_name):
         """Setup the object reader"""
 
-        # Set object reader
+        # Set reader
         self.__reader.SetFileName(file_name)
+        self.__reader.Update()
 
-        # Set object reader transform
+        # Set reader transform
         self.__reader_transform.RotateWXYZ(0.0, 0.0, 0.0, 0.0)
         self.__reader_transform.Translate(0.0, 0.0, 0.0)
 
-        # Set object reader transform filter
+        # Set reader transform filter
         self.__reader_transform_filter.SetInputConnection(self.__reader.GetOutputPort())
         self.__reader_transform_filter.SetTransform(self.__reader_transform)
         self.__reader_transform_filter.Update()
 
-        # Set object reader property
+        # Set reader property
         self.__reader_property.SetColor(1.0, 0.0, 0.0)
 
-        # Set object reader mapper
+        # Set mapper
         self.__reader_mapper.SetInputConnection(self.__reader_transform_filter.GetOutputPort())
 
-        # Set object reader actor
+        # Set actor
         self.__reader_actor.SetProperty(self.__reader_property)
         self.__reader_actor.SetMapper(self.__reader_mapper)
 
-        # Add object reader actor to the window renderer
+        # Add actor to the window renderer
         self.__renderer.AddActor(self.__reader_actor)
 
 

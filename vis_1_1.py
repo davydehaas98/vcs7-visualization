@@ -14,8 +14,8 @@ class Cone:
 
         self.__source = vtkConeSource()
         self.__source_property = vtkProperty()
-        self.__source_mapper = vtkPolyDataMapper()
-        self.__source_actor = vtkActor()
+        self.__mapper = vtkPolyDataMapper()
+        self.__actor = vtkActor()
 
     def setup(self, radius, height, resolution, direction, center, color):
         """Setup the cone"""
@@ -33,15 +33,15 @@ class Cone:
         self.__source_property.SetSpecular(0.4)
         self.__source_property.SetSpecularPower(20)
 
-        # Set cone mapper
-        self.__source_mapper.SetInputConnection(self.__source.GetOutputPort())
+        # Set mapper
+        self.__mapper.SetInputConnection(self.__source.GetOutputPort())
 
-        # Set cone actor
-        self.__source_actor.SetMapper(self.__source_mapper)
-        self.__source_actor.SetProperty(self.__source_property)
+        # Set actor
+        self.__actor.SetMapper(self.__mapper)
+        self.__actor.SetProperty(self.__source_property)
 
-        # Add cone actor to the window renderer
-        self.__renderer.AddActor(self.__source_actor)
+        # Add actor to the window renderer
+        self.__renderer.AddActor(self.__actor)
 
 
 # Run the program

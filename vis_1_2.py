@@ -13,8 +13,8 @@ class Text:
         self.__renderer = renderer
 
         self.__source = vtkTextSource()
-        self.__source_mapper = vtkPolyDataMapper()
-        self.__source_actor = vtkActor()
+        self.__mapper = vtkPolyDataMapper()
+        self.__actor = vtkActor()
 
     def setup(self, text):
         """Setup text"""
@@ -23,14 +23,14 @@ class Text:
         self.__source.SetText(text)
         self.__source.SetForegroundColor(1.0, 0.0, 0.0)
 
-        # Set text mapper
-        self.__source_mapper.SetInputConnection(self.__source.GetOutputPort())
+        # Set mapper
+        self.__mapper.SetInputConnection(self.__source.GetOutputPort())
 
-        # Set text actor
-        self.__source_actor.SetMapper(self.__source_mapper)
+        # Set actor
+        self.__actor.SetMapper(self.__mapper)
 
-        # Add text actor to the window renderer
-        self.__renderer.AddActor(self.__source_actor)
+        # Add actor to the window renderer
+        self.__renderer.AddActor(self.__actor)
 
 
 # Run the program
