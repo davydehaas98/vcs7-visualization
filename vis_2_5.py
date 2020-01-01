@@ -28,7 +28,7 @@ class SLCVisualizer:
         self.__outline_actor = vtkActor()
 
     def setup(self, file_name, sample_rate):
-        """Setup the SLC reader"""
+        """Setup the SLC visualizer"""
 
         # Set reader
         self.__reader.SetFileName(file_name)

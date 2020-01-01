@@ -18,15 +18,19 @@ class VTKUnstructuredGridVisualizer:
         self.__actor = vtkActor()
 
     def setup(self, file_name):
-        """Setup the VTK structured points reader"""
+        """Setup the VTK unstructured grid visualizer"""
 
         # Set reader
         self.__reader.SetFileName(file_name)
         self.__reader.Update()
-        print(self.__reader)
+
+        # Set scalar range
+        __scalar_range = self.__reader.GetOutput().GetScalarRange()
+        print(__scalar_range)
 
         # Set mapper
         self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
+        self.__mapper.SetScalarRange(__scalar_range)
         self.__mapper.ScalarVisibilityOff()
         self.__mapper.Update()
 

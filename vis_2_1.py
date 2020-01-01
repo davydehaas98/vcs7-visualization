@@ -21,7 +21,7 @@ class OBJVisualizer:
         self.__actor = vtkActor()
 
     def setup(self, file_name):
-        """Setup the object reader"""
+        """Setup the obj visualizer"""
 
         # Set reader
         self.__reader.SetFileName(file_name)

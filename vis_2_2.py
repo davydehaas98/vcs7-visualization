@@ -20,7 +20,7 @@ class VTKPolyDataVisualizer:
         self.__actor = vtkActor()
 
     def setup(self, file_name):
-        """Setup the VTK poly data reader"""
+        """Setup the VTK poly data visualizer"""
 
         # Set reader
         self.__reader.SetFileName(file_name)
@@ -58,7 +58,7 @@ class VTKStructuredPointsVisualizer:
         self.__actor = vtkActor()
 
     def setup(self, file_name):
-        """Setup the VTK structured points reader"""
+        """Setup the VTK structured points visualizer"""
 
         # Set reader
         self.__reader.SetFileName(file_name)
