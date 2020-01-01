@@ -12,13 +12,21 @@ POINTS 9 int
 2 0 0
 2 1 0
 2 2 0
+
 CELLS 4 12
 4 0 5 4 1
 4 1 4 3 2
 4 5 6 7 4
 4 4 7 8 3
+
 CELL_TYPES 4
 9
 9
 9
 9
+
+SCALARS scalars int 1
+LOOKUP_TABLE color 
+0 0 0
+1 2 1
+0 0 0
