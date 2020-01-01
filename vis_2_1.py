@@ -52,9 +52,9 @@ class ObjectReader:
 
 # Run the program
 if __name__ == '__main__':
-    window_renderer = WindowRenderer()
+    __window_renderer = WindowRenderer()
 
-    ObjectReader(window_renderer.renderer).setup("objects/cactus.obj")
+    ObjectReader(__window_renderer.renderer).setup("objects/cactus.obj")
 
-    window_renderer.setup_render_window((0.0, 0.0, 2000.0))
-    window_renderer.start_render_window()
+    __window_renderer.setup_render_window((0.0, 0.0, 2000.0))
+    __window_renderer.start_render_window()

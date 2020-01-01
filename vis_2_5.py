@@ -73,12 +73,12 @@ class SLCReader:
 
 # Run the program
 if __name__ == '__main__':
-    window_renderer = WindowRenderer()
+    __window_renderer = WindowRenderer()
 
-    SLCReader(window_renderer.renderer).setup("objects/vw_knee.slc", 3)
+    SLCReader(__window_renderer.renderer).setup("objects/vw_knee.slc", 3)
 
     # The assignment states that you have to try a surface value of 0.0, but you can only enter integers
-    SLCReader(window_renderer.renderer).setup("objects/neghip.slc", 2)
+    SLCReader(__window_renderer.renderer).setup("objects/neghip.slc", 2)
 
-    window_renderer.setup_render_window((700.0, 0.0, 500.0))
-    window_renderer.start_render_window()
+    __window_renderer.setup_render_window((700.0, 0.0, 500.0))
+    __window_renderer.start_render_window()

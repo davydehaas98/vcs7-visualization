@@ -46,21 +46,21 @@ class Cone:
 
 # Run the program
 if __name__ == '__main__':
-    window_renderer = WindowRenderer()
+    __window_renderer = WindowRenderer()
 
-    Cone(window_renderer.renderer).setup(
+    Cone(__window_renderer.renderer).setup(
         1.0, 3.0, 40,     # radius, height, resolution
         (0.0, 0.0, 0.0),  # direction
         (0.0, 0.0, 0.0),  # center
         (1.0, 0.0, 0.0)   # color
     )
 
-    Cone(window_renderer.renderer).setup(
+    Cone(__window_renderer.renderer).setup(
         0.5, 2.0, 10,     # radius, height, resolution
         (1.0, 1.0, 1.0),  # direction
         (2.0, 2.0, 2.0),  # center
         (0.0, 1.0, 0.0)   # color
     )
 
-    window_renderer.setup_render_window((0.0, 0.0, 25.0))
-    window_renderer.start_render_window()
+    __window_renderer.setup_render_window((0.0, 0.0, 25.0))
+    __window_renderer.start_render_window()

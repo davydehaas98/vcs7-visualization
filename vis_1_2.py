@@ -35,9 +35,9 @@ class Text:
 
 # Run the program
 if __name__ == '__main__':
-    window_renderer = WindowRenderer()
+    __window_renderer = WindowRenderer()
 
-    Text(window_renderer.renderer).setup("Hello World")
+    Text(__window_renderer.renderer).setup("Hello World")
 
-    window_renderer.setup_render_window((0.0, 0.0, 500.0))
-    window_renderer.start_render_window()
+    __window_renderer.setup_render_window((0.0, 0.0, 500.0))
+    __window_renderer.start_render_window()

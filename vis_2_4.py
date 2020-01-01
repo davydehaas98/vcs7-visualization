@@ -42,9 +42,9 @@ class TextureReader:
 
 # Run the program
 if __name__ == '__main__':
-    window_renderer = WindowRenderer()
+    __window_renderer = WindowRenderer()
 
-    TextureReader(window_renderer.renderer).setup("images/marbles.bmp")
+    TextureReader(__window_renderer.renderer).setup("images/marbles.bmp")
 
-    window_renderer.setup_render_window((0.0, 0.0, 5.0))
-    window_renderer.start_render_window()
+    __window_renderer.setup_render_window((0.0, 0.0, 5.0))
+    __window_renderer.start_render_window()

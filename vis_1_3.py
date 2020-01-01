@@ -46,20 +46,20 @@ class Cylinder:
 
 # Run the program
 if __name__ == '__main__':
-    window_renderer = WindowRenderer()
+    __window_renderer = WindowRenderer()
 
-    Cylinder(window_renderer.renderer).setup(
+    Cylinder(__window_renderer.renderer).setup(
         4.0, 4.0, 40,       # radius, height, resolution
         (5.0, 0.0, 0.0),    # center
         (1.0, 0.0, 0.0)     # color
     )
 
-    Cone(window_renderer.renderer).setup(
+    Cone(__window_renderer.renderer).setup(
         3.0, 12.0, 120,     # radius, height, resolution
         (0.0, 0.0, 0.0),    # direction
         (0.0, 0.0, 0.0),    # center
         (0.0, 1.0, 0.0)     # color
     )
 
-    window_renderer.setup_render_window((0.0, 0.0, 40.0))
-    window_renderer.start_render_window()
+    __window_renderer.setup_render_window((0.0, 0.0, 40.0))
+    __window_renderer.start_render_window()
