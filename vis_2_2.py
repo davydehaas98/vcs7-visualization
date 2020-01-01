@@ -1,13 +1,13 @@
 from vtkmodules.all import (
-    vtkPolyDataReader, vtkProperty,
-    vtkPolyDataMapper, vtkActor,
+    vtkPolyDataReader,vtkPolyDataMapper,
+    vtkProperty, vtkActor,
     vtkStructuredPointsReader, vtkGeometryFilter,
 )
 
 from utils.window_renderer import WindowRenderer
 
 
-class VTKPolyDataReader:
+class VTKPolyDataVisualizer:
 
     def __init__(self, renderer):
         # Renderer variable is needed to add the actor
@@ -45,7 +45,7 @@ class VTKPolyDataReader:
         self.__renderer.AddActor(self.__actor)
 
 
-class VTKStructuredPointsReader:
+class VTKStructuredPointsVisualizer:
 
     def __init__(self, renderer):
         # Renderer variable is needed to add the actor
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     __window_renderer = WindowRenderer()
     # VtkPolyDataReader cannot read dataset type: structured_points
     #VTKPolyDataReader(window_renderer.renderer).setup("objects/brain.vtk")
-    VTKStructuredPointsReader(__window_renderer.renderer).setup("objects/brain.vtk")
+    VTKStructuredPointsVisualizer(__window_renderer.renderer).setup("objects/brain.vtk")
 
     __window_renderer.setup_render_window((0.0, 0.0, 1000.0))
     __window_renderer.start_render_window()

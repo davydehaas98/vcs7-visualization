@@ -1,6 +1,6 @@
 from vtkmodules.all import (
-    vtkCylinderSource, vtkProperty,
-    vtkPolyDataMapper, vtkActor,
+    vtkCylinderSource, vtkPolyDataMapper,
+    vtkProperty, vtkActor,
 )
 
 from utils.window_renderer import WindowRenderer
@@ -14,8 +14,8 @@ class Cylinder:
         self.__renderer = renderer
 
         self.__source = vtkCylinderSource()
-        self.__property = vtkProperty()
         self.__mapper = vtkPolyDataMapper()
+        self.__property = vtkProperty()
         self.__actor = vtkActor()
 
     def setup(self, radius, height, resolution, center, color):

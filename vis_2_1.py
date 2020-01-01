@@ -1,13 +1,13 @@
 from vtkmodules.all import (
-    vtkOBJReader, vtkProperty,
-    vtkTransform, vtkTransformPolyDataFilter,
-    vtkPolyDataMapper, vtkActor,
+    vtkOBJReader, vtkTransform,
+    vtkTransformPolyDataFilter, vtkPolyDataMapper,
+    vtkProperty, vtkActor,
 )
 
 from utils.window_renderer import WindowRenderer
 
 
-class ObjectReader:
+class OBJVisualizer:
 
     def __init__(self, renderer):
         # Renderer variable is needed to add the actor
@@ -16,8 +16,8 @@ class ObjectReader:
         self.__reader = vtkOBJReader()
         self.__transform = vtkTransform()
         self.__transform_filter = vtkTransformPolyDataFilter()
-        self.__property = vtkProperty()
         self.__mapper = vtkPolyDataMapper()
+        self.__property = vtkProperty()
         self.__actor = vtkActor()
 
     def setup(self, file_name):
@@ -54,7 +54,7 @@ class ObjectReader:
 if __name__ == '__main__':
     __window_renderer = WindowRenderer()
 
-    ObjectReader(__window_renderer.renderer).setup("objects/cactus.obj")
+    OBJVisualizer(__window_renderer.renderer).setup("objects/cactus.obj")
 
     __window_renderer.setup_render_window((0.0, 0.0, 2000.0))
     __window_renderer.start_render_window()

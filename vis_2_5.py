@@ -8,7 +8,7 @@ from vtkmodules.all import (
 from utils.window_renderer import WindowRenderer
 
 
-class SLCReader:
+class SLCVisualizer:
 
     def __init__(self, renderer):
         # Renderer variable is needed to add the actor
@@ -75,10 +75,10 @@ class SLCReader:
 if __name__ == '__main__':
     __window_renderer = WindowRenderer()
 
-    SLCReader(__window_renderer.renderer).setup("objects/vw_knee.slc", 3)
+    SLCVisualizer(__window_renderer.renderer).setup("objects/vw_knee.slc", 3)
 
     # The assignment states that you have to try a surface value of 0.0, but you can only enter integers
-    SLCReader(__window_renderer.renderer).setup("objects/neghip.slc", 2)
+    SLCVisualizer(__window_renderer.renderer).setup("objects/neghip.slc", 2)
 
     __window_renderer.setup_render_window((700.0, 0.0, 500.0))
     __window_renderer.start_render_window()

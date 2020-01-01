@@ -7,7 +7,7 @@ from vtkmodules.all import (
 from utils.window_renderer import WindowRenderer
 
 
-class TextureReader:
+class TextureVisualizer:
 
     def __init__(self, renderer):
         # Renderer variable is needed to add the actor
@@ -44,7 +44,7 @@ class TextureReader:
 if __name__ == '__main__':
     __window_renderer = WindowRenderer()
 
-    TextureReader(__window_renderer.renderer).setup("images/marbles.bmp")
+    TextureVisualizer(__window_renderer.renderer).setup("images/marbles.bmp")
 
     __window_renderer.setup_render_window((0.0, 0.0, 5.0))
     __window_renderer.start_render_window()
