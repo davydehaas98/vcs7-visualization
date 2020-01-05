@@ -34,7 +34,6 @@ class VTKPolyDataVisualizer:
         self.__reader.SetFileName(file_name)
         self.__reader.Update()
 
-
         # Set transform
         self.__transform.RotateWXYZ(*rotation)
         self.__transform.Translate(position)
@@ -94,7 +93,7 @@ class VTKStructuredPointsVisualizer:
         # Set property
         self.__property.SetColor(color)
 
-        # Set  actor
+        # Set actor
         self.__actor.SetMapper(self.__mapper)
         self.__actor.SetProperty(self.__property)
 

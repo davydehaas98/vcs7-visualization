@@ -1,5 +1,5 @@
 # vtk DataFile Version 4.2
-vtk output
+Self made vtk file for vis_2_3.py
 ASCII
 DATASET UNSTRUCTURED_GRID
 POINTS 9 int
