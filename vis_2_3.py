@@ -48,6 +48,7 @@ class VTKUnstructuredGridVisualizer:
 
 if __name__ == '__main__':
     __window_renderer = WindowRenderer()
+
     VTKUnstructuredGridVisualizer(__window_renderer.renderer).setup("objects/self_made.vtk")
 
     __window_renderer.setup_render_window((0.0, 0.0, 500.0))

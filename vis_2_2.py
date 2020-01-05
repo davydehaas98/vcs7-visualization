@@ -19,23 +19,19 @@ class VTKPolyDataVisualizer:
         self.__property = vtkProperty()
         self.__actor = vtkActor()
 
-    def setup(self, file_name):
+    def setup(self, file_name, color):
         """Setup the VTK poly data visualizer"""
 
         # Set reader
         self.__reader.SetFileName(file_name)
         self.__reader.Update()
 
-        # Set geometry filter
-        self.__geometry_filter.SetInputConnection(self.__reader.GetOutputPort())
-        self.__geometry_filter.Update()
-
         # Set mapper
-        self.__mapper.SetInputConnection(self.__geometry_filter.GetOutputPort())
+        self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
         self.__mapper.Update()
 
         # Set property
-        self.__property.SetColor(1.0, 0.0, 0.0)
+        self.__property.SetColor(color)
 
         # Set actor
         self.__actor.SetMapper(self.__mapper)
@@ -65,11 +61,12 @@ class VTKStructuredPointsVisualizer:
         self.__reader.Update()
 
         # Set geometry filter
+        # This will convert the structured points data to poly data for the vtkPolyDataMapper
         self.__geometry_filter.SetInputConnection(self.__reader.GetOutputPort())
         self.__geometry_filter.Update()
 
         # Set mapper
-        self.__mapper.SetInputConnection(self.__geometry_filter.GetOutputPort())
+        self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
         self.__mapper.Update()
 
         # Set property
@@ -87,7 +84,7 @@ class VTKStructuredPointsVisualizer:
 if __name__ == '__main__':
     __window_renderer = WindowRenderer()
     # VtkPolyDataReader cannot read dataset type: structured_points
-    #VTKPolyDataReader(window_renderer.renderer).setup("objects/brain.vtk")
+    # VTKPolyDataVisualizer(__window_renderer.renderer).setup("objects/brain.vtk")
     VTKStructuredPointsVisualizer(__window_renderer.renderer).setup("objects/brain.vtk")
 
     __window_renderer.setup_render_window((0.0, 0.0, 1000.0))
