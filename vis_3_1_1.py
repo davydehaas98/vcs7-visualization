@@ -7,7 +7,7 @@ from vtkmodules.all import (
 from utils.window_renderer import WindowRenderer
 
 
-class ColorMapper:
+class ColorVisualizer:
 
     def __init__(self, renderer):
         # Renderer variable is needed to add the actor
@@ -25,7 +25,6 @@ class ColorMapper:
         # Set reader
         self.__reader.SetFileName(file_name)
         self.__reader.Update()
-        print(self.__reader)
 
         # Set lookup table
         self.__setup_lookup_table(1000, (0.0, 10.0))
@@ -57,7 +56,7 @@ class ColorMapper:
 if __name__ == '__main__':
     __window_renderer = WindowRenderer()
 
-    ColorMapper(__window_renderer.renderer).setup("objects/density.vtk", (0.0, 1.0))
+    ColorVisualizer(__window_renderer.renderer).setup("objects/density.vtk", (0.0, 1.0))
 
     __window_renderer.setup_render_window((0.0, 0.0, 100.0))
     __window_renderer.start_render_window()
