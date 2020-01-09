@@ -25,9 +25,10 @@ class ColorMapper:
         # Set reader
         self.__reader.SetFileName(file_name)
         self.__reader.Update()
+        print(self.__reader)
 
         # Set lookup table
-        self.__setup_lookup_table(5, (0.0, 1.0))
+        self.__setup_lookup_table(1000, (0.0, 10.0))
 
         # Set mapper
         self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
@@ -45,17 +46,18 @@ class ColorMapper:
     def __setup_lookup_table(self, number_of_colors, hue_range):
         self.__lookup_table.SetNumberOfColors(number_of_colors)
         self.__lookup_table.SetHueRange(hue_range)
-        self.__lookup_table.SetSaturationRange(0.0, 1.0)
-        self.__lookup_table.SetValueRange(0.0, 1.0)
-        self.__lookup_table.SetAlphaRange(0.0, 1.0)
+        self.__lookup_table.SetSaturationRange(1.0, 0.0)
+        self.__lookup_table.SetValueRange(1.0, 0.0)
+        self.__lookup_table.SetAlphaRange(1.0, 0.0)
         self.__lookup_table.SetRange(0.0, 1.0)
+        self.__lookup_table.Build()
 
 
 # Run the program
 if __name__ == '__main__':
     __window_renderer = WindowRenderer()
 
-    ColorMapper(__window_renderer.renderer).setup("objects/density.vtk", (0.0, 1000.0))
+    ColorMapper(__window_renderer.renderer).setup("objects/density.vtk", (0.0, 1.0))
 
-    __window_renderer.setup_render_window((0.0, 0.0, 1000.0))
+    __window_renderer.setup_render_window((0.0, 0.0, 100.0))
     __window_renderer.start_render_window()
