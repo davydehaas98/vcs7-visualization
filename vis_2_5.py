@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
     SLCVisualizer(__window.renderer).setup("objects/vw_knee.slc", 3)
 
-    # The assignment states that you have to try a surface value of 0.0, but you can only enter integers
+    # The assignment states that you have to try a surface value of 0.5, but you can only enter integers higher than 0
     SLCVisualizer(__window.renderer).setup("objects/neghip.slc", 2)
 
     __window.setup((700.0, 0.0, 500.0))

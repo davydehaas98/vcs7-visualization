@@ -12,8 +12,8 @@ class Glyph3DVisualizer:
         # Renderer variable is needed to add the actor
         self.__renderer = renderer
 
-        self.__arrow = vtkArrowSource()
         self.__reader = vtkStructuredGridReader()
+        self.__arrow = vtkArrowSource()
         self.__glyph_3d = vtkGlyph3D()
         self.__mapper = vtkPolyDataMapper()
         self.__actor = vtkActor()
@@ -21,18 +21,18 @@ class Glyph3DVisualizer:
     def setup(self, file_name):
         """Setup the glyph 3D visualizer"""
 
+        # Set reader
+        self.__reader.SetFileName(file_name)
+        self.__reader.Update()
+
         # Set arrow
         self.__arrow.SetTipLength(0.25)
         self.__arrow.SetTipRadius(0.1)
         self.__arrow.SetTipResolution(10)
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
-
         # Set glyph 3D
-        self.__glyph_3d.SetSourceConnection(self.__arrow.GetOutputPort())
         self.__glyph_3d.SetInputConnection(self.__reader.GetOutputPort())
+        self.__glyph_3d.SetSourceConnection(self.__arrow.GetOutputPort())
         self.__glyph_3d.SetVectorModeToUseVector()
         self.__glyph_3d.SetColorModeToColorByScalar()
 
