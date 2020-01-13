@@ -4,7 +4,7 @@ from vtkmodules.all import (
     vtkActor,
 )
 
-from utils.window_renderer import WindowRenderer
+from utils.window import Window
 
 
 class TextureVisualizer:
@@ -42,9 +42,8 @@ class TextureVisualizer:
 
 # Run the program
 if __name__ == '__main__':
-    __window_renderer = WindowRenderer()
+    __window = Window()
 
-    TextureVisualizer(__window_renderer.renderer).setup("images/marbles.bmp")
+    TextureVisualizer(__window.renderer).setup("images/marbles.bmp")
 
-    __window_renderer.setup_render_window((0.0, 0.0, 5.0))
-    __window_renderer.start_render_window()
+    __window.setup((0.0, 0.0, 5.0))

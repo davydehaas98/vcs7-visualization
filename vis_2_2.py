@@ -5,7 +5,7 @@ from vtkmodules.all import (
     vtkStructuredPointsReader, vtkGeometryFilter,
 )
 
-from utils.window_renderer import WindowRenderer
+from utils.window import Window
 
 
 class VTKPolyDataVisualizer:
@@ -103,10 +103,9 @@ class VTKStructuredPointsVisualizer:
 
 # Run the program
 if __name__ == '__main__':
-    __window_renderer = WindowRenderer()
+    __window = Window()
     # VtkPolyDataReader cannot read dataset type: structured_points
-    #VTKPolyDataVisualizer(__window_renderer.renderer).setup("objects/brain.vtk")
-    VTKStructuredPointsVisualizer(__window_renderer.renderer).setup("objects/brain.vtk")
+    #VTKPolyDataVisualizer(__window.renderer).setup("objects/brain.vtk")
+    VTKStructuredPointsVisualizer(__window.renderer).setup("objects/brain.vtk")
 
-    __window_renderer.setup_render_window((0.0, 0.0, 1000.0))
-    __window_renderer.start_render_window()
+    __window.setup((0.0, 0.0, 1000.0))

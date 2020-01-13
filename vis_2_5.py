@@ -5,7 +5,7 @@ from vtkmodules.all import (
     vtkOutlineFilter,
 )
 
-from utils.window_renderer import WindowRenderer
+from utils.window import Window
 
 
 class SLCVisualizer:
@@ -73,12 +73,11 @@ class SLCVisualizer:
 
 # Run the program
 if __name__ == '__main__':
-    __window_renderer = WindowRenderer()
+    __window = Window()
 
-    SLCVisualizer(__window_renderer.renderer).setup("objects/vw_knee.slc", 3)
+    SLCVisualizer(__window.renderer).setup("objects/vw_knee.slc", 3)
 
     # The assignment states that you have to try a surface value of 0.0, but you can only enter integers
-    SLCVisualizer(__window_renderer.renderer).setup("objects/neghip.slc", 2)
+    SLCVisualizer(__window.renderer).setup("objects/neghip.slc", 2)
 
-    __window_renderer.setup_render_window((700.0, 0.0, 500.0))
-    __window_renderer.start_render_window()
+    __window.setup((700.0, 0.0, 500.0))

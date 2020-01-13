@@ -3,7 +3,7 @@ from vtkmodules.all import (
     vtkProperty, vtkActor,
 )
 
-from utils.window_renderer import WindowRenderer
+from utils.window import Window
 from vis_1_1 import Cone
 
 
@@ -46,20 +46,19 @@ class Cylinder:
 
 # Run the program
 if __name__ == '__main__':
-    __window_renderer = WindowRenderer()
+    __window = Window()
 
-    Cylinder(__window_renderer.renderer).setup(
+    Cylinder(__window.renderer).setup(
         4.0, 4.0, 40,       # radius, height, resolution
         (5.0, 0.0, 0.0),    # center
         (1.0, 0.0, 0.0)     # color
     )
 
-    Cone(__window_renderer.renderer).setup(
+    Cone(__window.renderer).setup(
         3.0, 12.0, 120,     # radius, height, resolution
         (0.0, 0.0, 0.0),    # direction
         (0.0, 0.0, 0.0),    # center
         (0.0, 1.0, 0.0)     # color
     )
 
-    __window_renderer.setup_render_window((0.0, 0.0, 40.0))
-    __window_renderer.start_render_window()
+    __window.setup((0.0, 0.0, 40.0))

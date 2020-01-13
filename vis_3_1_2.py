@@ -1,9 +1,9 @@
 from vtkmodules.all import (
-    vtkStructuredGridReader, vtkPolyDataMapper,
-    vtkContourFilter, vtkActor
+    vtkStructuredGridReader, vtkContourFilter,
+    vtkPolyDataMapper, vtkActor,
 )
 
-from utils.window_renderer import WindowRenderer
+from utils.window import Window
 
 
 class ContourVisualizer:
@@ -24,8 +24,7 @@ class ContourVisualizer:
         self.__reader.SetFileName(file_name)
         self.__reader.Update()
 
-        # Set contour filter
-        # Generates polygonal data
+        # Set contour filter that generates polygonal data
         self.__contour_filter.SetInputConnection(self.__reader.GetOutputPort())
         self.__contour_filter.SetValue(0, 0.26)
 
@@ -40,10 +39,12 @@ class ContourVisualizer:
 
 
 if __name__ == '__main__':
-    __window_renderer = WindowRenderer()
+    __window = Window()
 
-    ContourVisualizer(__window_renderer.renderer).setup("objects/subset.vtk")
-    ContourVisualizer(__window_renderer.renderer).setup("objects/density.vtk")
+    ContourVisualizer(__window.renderer).setup("objects/subset.vtk")
+    ContourVisualizer(__window.renderer).setup("objects/density.vtk")
 
-    __window_renderer.setup_render_window((700.0, 0.0, 500.0))
-    __window_renderer.start_render_window()
+    # This polygonal data vtk file does not work
+    #ContourVisualizer(__window.renderer).setup("objects/honolulu.vtk")
+
+    __window.setup((700.0, 0.0, 500.0))

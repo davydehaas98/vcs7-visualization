@@ -1,38 +1,42 @@
 from vtkmodules.all import (
-    vtkStructuredGridReader, vtkLookupTable,
-    vtkDataSetMapper, vtkProperty,
+    vtkStructuredGridReader, vtkPolyDataMapper,
+    vtkLookupTable, vtkHedgeHog,
     vtkActor,
 )
 
 from utils.window import Window
 
 
-class ColorVisualizer:
+class HedgehogVisualizer:
 
     def __init__(self, renderer):
         # Renderer variable is needed to add the actor
         self.__renderer = renderer
 
         self.__reader = vtkStructuredGridReader()
+        self.__mapper = vtkPolyDataMapper()
         self.__lookup_table = vtkLookupTable()
-        self.__mapper = vtkDataSetMapper()
-        self.__property = vtkProperty()
+        self.__hedgehog = vtkHedgeHog()
         self.__actor = vtkActor()
 
-    def setup(self, file_name, scalar_range):
-        """Setup the scalar visualizer"""
+    def setup(self, file_name, scale):
+        """Setup the hedgehog visualizer"""
 
         # Set reader
         self.__reader.SetFileName(file_name)
         self.__reader.Update()
 
         # Set lookup table
-        self.__setup_lookup_table(1000)
+        self.__setup_lookup_table()
+
+        # Set hedgehog
+        self.__hedgehog.SetInputConnection(self.__reader.GetOutputPort())
+        self.__hedgehog.SetScaleFactor(scale)
 
         # Set mapper
-        self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
+        self.__mapper.SetInputConnection(self.__hedgehog.GetOutputPort())
         self.__mapper.SetLookupTable(self.__lookup_table)
-        self.__mapper.SetScalarRange(scalar_range)
+        self.__mapper.SetScalarRange(0.0, 1.0)
         self.__mapper.ScalarVisibilityOn()
         self.__mapper.Update()
 
@@ -42,9 +46,9 @@ class ColorVisualizer:
         # Add actor to the window renderer
         self.__renderer.AddActor(self.__actor)
 
-    def __setup_lookup_table(self, number_of_colors):
-        self.__lookup_table.SetNumberOfColors(number_of_colors)
-        self.__lookup_table.SetHueRange(1.0, 0.0)
+    def __setup_lookup_table(self):
+        self.__lookup_table.SetNumberOfColors(1000)
+        self.__lookup_table.SetHueRange(0.0, 1.0)
         self.__lookup_table.SetSaturationRange(1.0, 0.0)
         self.__lookup_table.SetValueRange(1.0, 0.0)
         self.__lookup_table.SetAlphaRange(1.0, 0.0)
@@ -53,11 +57,10 @@ class ColorVisualizer:
         self.__lookup_table.SetRange(0.0, 1.0)
         self.__lookup_table.Build()
 
-
 # Run the program
 if __name__ == '__main__':
     __window = Window()
 
-    ColorVisualizer(__window.renderer).setup("objects/density.vtk", (0.0, 1.0))
+    HedgehogVisualizer(__window.renderer).setup("objects/density.vtk", 1.0)
 
-    __window.setup((0.0, 0.0, 100.0))
+    __window.setup((0.0, 0.0, 1500.0))

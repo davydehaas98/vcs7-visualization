@@ -4,7 +4,7 @@ from vtkmodules.all import (
     vtkProperty, vtkActor,
 )
 
-from utils.window_renderer import WindowRenderer
+from utils.window import Window
 
 
 class OBJVisualizer:
@@ -52,9 +52,8 @@ class OBJVisualizer:
 
 # Run the program
 if __name__ == '__main__':
-    __window_renderer = WindowRenderer()
+    __window = Window()
 
-    OBJVisualizer(__window_renderer.renderer).setup("objects/cactus.obj")
+    OBJVisualizer(__window.renderer).setup("objects/cactus.obj")
 
-    __window_renderer.setup_render_window((0.0, 0.0, 2000.0))
-    __window_renderer.start_render_window()
+    __window.setup((0.0, 0.0, 2000.0))
