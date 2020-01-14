@@ -1,8 +1,8 @@
 from vtkmodules.all import (
     vtkPolyDataReader, vtkTransform,
     vtkTransformFilter, vtkPolyDataMapper,
-    vtkProperty, vtkActor,
-    vtkStructuredPointsReader, vtkGeometryFilter,
+    vtkDataSetMapper, vtkProperty,
+    vtkActor, vtkStructuredPointsReader,
 )
 
 from utils.window import Window
@@ -66,8 +66,7 @@ class VTKStructuredPointsVisualizer:
         self.__renderer = renderer
 
         self.__reader = vtkStructuredPointsReader()
-        self.__geometry_filter = vtkGeometryFilter()
-        self.__mapper = vtkPolyDataMapper()
+        self.__mapper = vtkDataSetMapper()
         self.__property = vtkProperty()
         self.__actor = vtkActor()
 
@@ -80,11 +79,6 @@ class VTKStructuredPointsVisualizer:
         # Set reader
         self.__reader.SetFileName(file_name)
         self.__reader.Update()
-
-        # Set geometry filter
-        # This will convert the structured points data to poly data for the vtkPolyDataMapper
-        self.__geometry_filter.SetInputConnection(self.__reader.GetOutputPort())
-        self.__geometry_filter.Update()
 
         # Set mapper
         self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
@@ -104,8 +98,8 @@ class VTKStructuredPointsVisualizer:
 # Run the program
 if __name__ == '__main__':
     __window = Window()
-    # VtkPolyDataReader cannot read dataset type: structured_points
-    #VTKPolyDataVisualizer(__window.renderer).setup("objects/brain.vtk")
+
+    VTKPolyDataVisualizer(__window.renderer).setup("objects/skin.vtk")
     VTKStructuredPointsVisualizer(__window.renderer).setup("objects/brain.vtk")
 
     __window.setup((0.0, 0.0, 1000.0))
