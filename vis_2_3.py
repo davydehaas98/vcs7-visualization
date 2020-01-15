@@ -6,49 +6,45 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class VTKUnstructuredGridVisualizer:
+def vtk_unstructured_grid_visualizer(renderer, file_name):
+    """Create VTK unstructured grid visualizer"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    reader = vtkUnstructuredGridReader()
+    mapper = vtkDataSetMapper()
+    properties = vtkProperty()
+    actor = vtkActor()
 
-        self.__reader = vtkUnstructuredGridReader()
-        self.__mapper = vtkDataSetMapper()
-        self.__property = vtkProperty()
-        self.__actor = vtkActor()
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
+    print(reader.GetOutput())
 
-    def setup(self, file_name):
-        """Setup the VTK unstructured grid visualizer"""
+    # Set scalar range
+    scalar_range = reader.GetOutput().GetScalarRange()
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
-        print(self.__reader.GetOutput())
+    # Set mapper
+    mapper.SetInputConnection(reader.GetOutputPort())
+    mapper.SetScalarRange(scalar_range)
+    mapper.SetScalarModeToUsePointData()
+    mapper.ScalarVisibilityOn()
 
-        # Set scalar range
-        __scalar_range = self.__reader.GetOutput().GetScalarRange()
+    # Set properties
+    properties.EdgeVisibilityOn()
+    properties.SetLineWidth(2.0)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
-        self.__mapper.SetScalarRange(__scalar_range)
-        self.__mapper.SetScalarModeToUsePointData()
-        self.__mapper.ScalarVisibilityOn()
+    # Set  actor
+    actor.SetMapper(mapper)
+    actor.SetProperty(properties)
 
-        # Set property
-        self.__property.EdgeVisibilityOn()
-        self.__property.SetLineWidth(2.0)
-
-        # Set  actor
-        self.__actor.SetMapper(self.__mapper)
-        self.__actor.SetProperty(self.__property)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    VTKUnstructuredGridVisualizer(__window.renderer).setup("objects/self_made.vtk")
+    vtk_unstructured_grid_visualizer(window.renderer, "objects/self_made.vtk")
 
-    __window.setup((0.0, 0.0, 500.0))
+    window.setup((0.0, 0.0, 500.0))

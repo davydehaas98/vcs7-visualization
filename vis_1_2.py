@@ -6,37 +6,32 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class Text:
+def create_text(renderer, text):
+    """Create text"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    source = vtkTextSource()
+    mapper = vtkPolyDataMapper()
+    actor = vtkActor()
 
-        self.__source = vtkTextSource()
-        self.__mapper = vtkPolyDataMapper()
-        self.__actor = vtkActor()
+    # Set text
+    source.SetText(text)
+    source.SetForegroundColor(1.0, 0.0, 0.0)
 
-    def setup(self, text):
-        """Setup text"""
+    # Set mapper
+    mapper.SetInputConnection(source.GetOutputPort())
 
-        # Set text
-        self.__source.SetText(text)
-        self.__source.SetForegroundColor(1.0, 0.0, 0.0)
+    # Set actor
+    actor.SetMapper(mapper)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__source.GetOutputPort())
-
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
-# Run the program
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    Text(__window.renderer).setup("Hello World")
+    create_text(window.renderer, "Hello World")
 
-    __window.setup((0.0, 0.0, 500.0))
+    window.setup((0.0, 0.0, 500.0))

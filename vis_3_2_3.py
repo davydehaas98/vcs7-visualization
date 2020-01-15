@@ -7,57 +7,55 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class StreamlineVisualizer:
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+def streamline_visualizer(renderer, file_name):
+    """Create streamline visualizer"""
 
-        self.__reader = vtkStructuredGridReader()
-        self.__points = vtkPointSource()
-        self.__integrator = vtkRungeKutta4()
-        self.__stream_tracer = vtkStreamTracer()
-        self.__mapper = vtkPolyDataMapper()
-        self.__actor = vtkActor()
+    # Initialize variables
+    reader = vtkStructuredGridReader()
+    points = vtkPointSource()
+    integrator = vtkRungeKutta4()
+    stream_tracer = vtkStreamTracer()
+    mapper = vtkPolyDataMapper()
+    actor = vtkActor()
 
-    def setup(self, file_name):
-        """Setup streamline visualizer"""
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set points
+    points.SetRadius(3.0)
+    points.SetCenter(reader.GetOutput().GetCenter())
+    points.SetNumberOfPoints(100)
 
-        # Set points
-        self.__points.SetRadius(3.0)
-        self.__points.SetCenter(self.__reader.GetOutput().GetCenter())
-        self.__points.SetNumberOfPoints(100)
+    # Set stream tracer
+    stream_tracer.SetInputConnection(reader.GetOutputPort())
+    stream_tracer.SetSourceConnection(points.GetOutputPort())
 
-        # Set stream tracer
-        self.__stream_tracer.SetInputConnection(self.__reader.GetOutputPort())
-        self.__stream_tracer.SetSourceConnection(self.__points.GetOutputPort())
+    stream_tracer.SetMaximumPropagation(100)
+    # SetMaximumPropagationUnitToTimeUnit method does not exist in vtk 8.2.0
+    #stream_tracer.SetMaximumPropagationUnitToTimeUnit()
 
-        self.__stream_tracer.SetMaximumPropagation(100)
-        # SetMaximumPropagationUnitToTimeUnit method does not exist in vtk 8.2.0
-        #self.__stream_tracer.SetMaximumPropagationUnitToTimeUnit()
+    stream_tracer.SetIntegrator(integrator)
+    stream_tracer.SetInitialIntegrationStep(0.1)
+    stream_tracer.SetIntegrationDirectionToBoth()
+    # SetInitialIntegrationStepUnitToCellLengthUnit method does not exist in vtk 8.2.0
+    #stream_tracer.SetInitialIntegrationStepUnitToCellLengthUnit()
+    stream_tracer.Update()
 
-        self.__stream_tracer.SetIntegrator(self.__integrator)
-        self.__stream_tracer.SetInitialIntegrationStep(0.1)
-        self.__stream_tracer.SetIntegrationDirectionToBoth()
-        # SetInitialIntegrationStepUnitToCellLengthUnit method does not exist in vtk 8.2.0
-        #self.__stream_tracer.SetInitialIntegrationStepUnitToCellLengthUnit()
-        self.__stream_tracer.Update()
+    # Set mapper
+    mapper.SetInputConnection(stream_tracer.GetOutputPort())
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__stream_tracer.GetOutputPort())
+    # Set actor
+    actor.SetMapper(mapper)
 
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
 
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    StreamlineVisualizer(__window.renderer).setup("objects/density.vtk")
+    streamline_visualizer(window.renderer, "objects/density.vtk")
 
-    __window.setup((0.0, 0.0, 100.0))
+    window.setup((0.0, 0.0, 100.0))

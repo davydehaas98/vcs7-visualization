@@ -7,46 +7,43 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class CutterVisualizer:
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+def cutter_visualizer(renderer, file_name):
+    """Create cutting visualizer"""
 
-        self.__reader = vtkStructuredGridReader()
-        self.__plane = vtkPlane()
-        self.__cutter = vtkCutter()
-        self.__mapper = vtkPolyDataMapper()
-        self.__actor = vtkActor()
+    # Initialize variables
+    reader = vtkStructuredGridReader()
+    plane = vtkPlane()
+    cutter = vtkCutter()
+    mapper = vtkPolyDataMapper()
+    actor = vtkActor()
 
-    def setup(self, file_name):
-        """Setup cutting visualizer"""
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set plane
+    plane.SetOrigin(reader.GetOutput().GetCenter())
+    plane.SetNormal(1.0, 1.0, 0.0)
 
-        # Set plane
-        self.__plane.SetOrigin(self.__reader.GetOutput().GetCenter())
-        self.__plane.SetNormal(1.0, 1.0, 0.0)
+    # Set cutter
+    cutter.SetCutFunction(plane)
+    cutter.SetInputConnection(reader.GetOutputPort())
+    cutter.Update()
 
-        # Set cutter
-        self.__cutter.SetCutFunction(self.__plane)
-        self.__cutter.SetInputConnection(self.__reader.GetOutputPort())
-        self.__cutter.Update()
+    # Set mapper
+    mapper.SetInputConnection(cutter.GetOutputPort())
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__cutter.GetOutputPort())
+    # Set actor
+    actor.SetMapper(mapper)
 
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    CutterVisualizer(__window.renderer).setup("objects/density.vtk")
+    cutter_visualizer(window.renderer, "objects/density.vtk")
 
-    __window.setup((0.0, 0.0, 200.0))
+    window.setup((0.0, 0.0, 200.0))

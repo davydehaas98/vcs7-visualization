@@ -1,63 +1,57 @@
 from vtkmodules.all import (
     vtkStructuredGridReader, vtkLookupTable,
-    vtkDataSetMapper, vtkProperty,
-    vtkActor,
+    vtkDataSetMapper, vtkActor,
 )
 
 from utils.window import Window
 
 
-class ColorVisualizer:
+def color_visualizer(renderer, file_name, scalar_range):
+    """Create color visualizer"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    reader = vtkStructuredGridReader()
+    lookup_table = vtkLookupTable()
+    mapper = vtkDataSetMapper()
+    actor = vtkActor()
 
-        self.__reader = vtkStructuredGridReader()
-        self.__lookup_table = vtkLookupTable()
-        self.__mapper = vtkDataSetMapper()
-        self.__property = vtkProperty()
-        self.__actor = vtkActor()
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-    def setup(self, file_name, scalar_range):
-        """Setup the scalar visualizer"""
+    # Set lookup table
+    setup_lookup_table(lookup_table, 1000, (0.0, 1.0))
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set mapper
+    mapper.SetInputConnection(reader.GetOutputPort())
+    mapper.SetLookupTable(lookup_table)
+    mapper.SetScalarRange(scalar_range)
+    mapper.ScalarVisibilityOn()
+    mapper.Update()
 
-        # Set lookup table
-        self.__setup_lookup_table(1000)
+    # Set actor
+    actor.SetMapper(mapper)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
-        self.__mapper.SetLookupTable(self.__lookup_table)
-        self.__mapper.SetScalarRange(scalar_range)
-        self.__mapper.ScalarVisibilityOn()
-        self.__mapper.Update()
-
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
-
-    def __setup_lookup_table(self, number_of_colors):
-        self.__lookup_table.SetNumberOfColors(number_of_colors)
-        self.__lookup_table.SetHueRange(1.0, 0.0)
-        self.__lookup_table.SetSaturationRange(1.0, 0.0)
-        self.__lookup_table.SetValueRange(1.0, 0.0)
-        self.__lookup_table.SetAlphaRange(1.0, 0.0)
-
-        # Range of scalars that will be mapped
-        self.__lookup_table.SetRange(0.0, 1.0)
-        self.__lookup_table.Build()
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
-# Run the program
+def setup_lookup_table(lookup_table, colors, hue):
+    lookup_table.SetNumberOfColors(colors)
+    lookup_table.SetHueRange(hue)
+    lookup_table.SetSaturationRange(1.0, 0.0)
+    lookup_table.SetValueRange(1.0, 0.0)
+    lookup_table.SetAlphaRange(1.0, 0.0)
+
+    # Range of scalars that will be mapped
+    lookup_table.SetRange(0.0, 1.0)
+    lookup_table.Build()
+
+
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    ColorVisualizer(__window.renderer).setup("objects/density.vtk", (0.0, 1.0))
+    color_visualizer(window.renderer, "objects/density.vtk", (0.0, 1.0))
 
-    __window.setup((0.0, 0.0, 100.0))
+    window.setup((0.0, 0.0, 100.0))

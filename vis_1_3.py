@@ -4,61 +4,58 @@ from vtkmodules.all import (
 )
 
 from utils.window import Window
-from vis_1_1 import Cone
+from vis_1_1 import create_cone
 
 
-class Cylinder:
+def create_cylinder(renderer, radius, height, resolution, center, color):
+    """Create cylinder"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    cylinder = vtkCylinderSource()
+    mapper = vtkPolyDataMapper()
+    properties = vtkProperty()
+    actor = vtkActor()
 
-        self.__source = vtkCylinderSource()
-        self.__mapper = vtkPolyDataMapper()
-        self.__property = vtkProperty()
-        self.__actor = vtkActor()
+    # Set cylinder
+    cylinder.SetRadius(radius)
+    cylinder.SetHeight(height)
+    cylinder.SetResolution(resolution)
+    cylinder.SetCenter(center)
 
-    def setup(self, radius, height, resolution, center, color):
-        """Setup the cylinder"""
+    # Set mapper
+    mapper.SetInputConnection(cylinder.GetOutputPort())
 
-        # Set cylinder
-        self.__source.SetRadius(radius)
-        self.__source.SetHeight(height)
-        self.__source.SetResolution(resolution)
-        self.__source.SetCenter(center)
+    # Set property
+    properties.SetColor(color)
+    properties.SetDiffuse(0.7)
+    properties.SetSpecular(0.4)
+    properties.SetSpecularPower(20)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__source.GetOutputPort())
+    # Set actor
+    actor.SetMapper(mapper)
+    actor.SetProperty(properties)
 
-        # Set property
-        self.__property.SetColor(color)
-        self.__property.SetDiffuse(0.7)
-        self.__property.SetSpecular(0.4)
-        self.__property.SetSpecularPower(20)
-
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-        self.__actor.SetProperty(self.__property)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
-# Run the program
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    Cylinder(__window.renderer).setup(
+    create_cylinder(
+        window.renderer,
         4.0, 4.0, 40,       # radius, height, resolution
         (5.0, 0.0, 0.0),    # center
         (1.0, 0.0, 0.0)     # color
     )
 
-    Cone(__window.renderer).setup(
+    create_cone(
+        window.renderer,
         3.0, 12.0, 120,     # radius, height, resolution
         (0.0, 0.0, 0.0),    # direction
         (0.0, 0.0, 0.0),    # center
         (0.0, 1.0, 0.0)     # color
     )
 
-    __window.setup((0.0, 0.0, 40.0))
+    window.setup((0.0, 0.0, 40.0))

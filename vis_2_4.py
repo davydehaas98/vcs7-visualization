@@ -7,43 +7,38 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class TextureVisualizer:
+def texture_plane_visualizer(renderer, file_name):
+    """Create texture plane"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    plane = vtkPlaneSource()
+    reader = vtkBMPReader()
+    texture = vtkTexture()
+    mapper = vtkPolyDataMapper()
+    actor = vtkActor()
 
-        self.__plane = vtkPlaneSource()
-        self.__reader = vtkBMPReader()
-        self.__texture = vtkTexture()
-        self.__mapper = vtkPolyDataMapper()
-        self.__actor = vtkActor()
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-    def setup(self, file_name):
-        """Setup the texture plane"""
+    # Set texture
+    texture.SetInputConnection(reader.GetOutputPort())
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set mapper
+    mapper.SetInputConnection(plane.GetOutputPort())
 
-        # Set texture
-        self.__texture.SetInputConnection(self.__reader.GetOutputPort())
+    # Set actor
+    actor.SetTexture(texture)
+    actor.SetMapper(mapper)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__plane.GetOutputPort())
-
-        # Set actor
-        self.__actor.SetTexture(self.__texture)
-        self.__actor.SetMapper(self.__mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
-# Run the program
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    TextureVisualizer(__window.renderer).setup("images/marbles.bmp")
+    texture_plane_visualizer(window.renderer, "images/marbles.bmp")
 
-    __window.setup((0.0, 0.0, 5.0))
+    window.setup((0.0, 0.0, 5.0))

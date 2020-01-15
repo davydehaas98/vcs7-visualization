@@ -7,61 +7,65 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class ClipperVisualizer:
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+def clipper_visualizer(renderer, file_name, sphere):
+    """Create cutting visualizer"""
 
-        self.__reader = vtkStructuredGridReader()
+    # Initialize variables
+    reader = vtkStructuredGridReader()
+    clip_data_set = vtkClipDataSet()
+    mapper = vtkDataSetMapper()
+    actor = vtkActor()
 
-        # To use the vtkClipDataSet().SetClipFunction we have to use implicit objects
-        # instead of PolyDataAlgorithm objects
-        self.__sphere = vtkSphere()
-        self.__plane = vtkPlane()
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-        self.__clip = vtkClipDataSet()
-        self.__mapper = vtkDataSetMapper()
-        self.__actor = vtkActor()
+    # Set sphere or plane
+    if sphere:
+        clip_function = create_plane_clip_funtion(reader)
+    else:
+        clip_function = create_plane_clip_function(reader)
 
-    def setup(self, file_name, sphere):
-        """Setup cutting visualizer"""
+    # Set cutter
+    clip_data_set.SetClipFunction(clip_function)
+    clip_data_set.SetInputConnection(reader.GetOutputPort())
+    clip_data_set.Update()
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set mapper
+    mapper.SetInputConnection(clip_data_set.GetOutputPort())
 
-        # Set sphere
-        if sphere:
-            self.__sphere.SetCenter(self.__reader.GetOutput().GetCenter())
-            self.__clip.SetClipFunction(self.__sphere)
+    # Set actor
+    actor.SetMapper(mapper)
 
-        # Set plane
-        else:
-            self.__plane.SetOrigin(self.__reader.GetOutput().GetCenter())
-            self.__plane.SetNormal(1.0, 1.0, 0.0)
-            self.__clip.SetClipFunction(self.__plane)
-
-        # Set cutter
-        self.__clip.SetInputConnection(self.__reader.GetOutputPort())
-        self.__clip.Update()
-
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__clip.GetOutputPort())
-
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
+def create_plane_clip_function(reader) -> object:
+    # To use the vtkClipDataSet().SetClipFunction we have to use implicit vtkPlane
+    # instead of PolyDataAlgorithm object vtkPlaneSource
+    plane = vtkPlane()
+    plane.SetOrigin(reader.GetOutput().GetCenter())
+    plane.SetNormal(1.0, 1.0, 0.0)
+    return plane
+
+
+def create_plane_clip_funtion(reader) -> object:
+    # To use the vtkClipDataSet().SetClipFunction we have to use implicit vtkSphere
+    # instead of PolyDataAlgorithm object vtkSphereSource
+    sphere = vtkSphere()
+    sphere.SetCenter(reader.GetOutput().GetCenter())
+    return sphere
+
+
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
     # Clipping with a plane
-    ClipperVisualizer(__window.renderer).setup("objects/density.vtk", False)
+    clipper_visualizer(window.renderer, "objects/density.vtk", False)
 
     # Clipping with a sphere
-    ClipperVisualizer(__window.renderer).setup("objects/density.vtk", True)
+    #clipper_visualizer(window.renderer, "objects/density.vtk", True)
 
-    __window.setup((0.0, 0.0, 200.0))
+    window.setup((0.0, 0.0, 200.0))

@@ -6,45 +6,41 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class ContourVisualizer:
+def contour_visualizer(renderer, file_name):
+    """Create contour visualizer"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    reader = vtkStructuredGridReader()
+    contour_filter = vtkContourFilter()
+    mapper = vtkPolyDataMapper()
+    actor = vtkActor()
 
-        self.__reader = vtkStructuredGridReader()
-        self.__contour_filter = vtkContourFilter()
-        self.__mapper = vtkPolyDataMapper()
-        self.__actor = vtkActor()
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-    def setup(self, file_name):
-        """Setup the contour visualizer"""
+    # Set contour filter that generates polygonal data
+    contour_filter.SetInputConnection(reader.GetOutputPort())
+    contour_filter.SetValue(0, 0.26)
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set mapper
+    mapper.SetInputConnection(contour_filter.GetOutputPort())
 
-        # Set contour filter that generates polygonal data
-        self.__contour_filter.SetInputConnection(self.__reader.GetOutputPort())
-        self.__contour_filter.SetValue(0, 0.26)
+    # Set actor
+    actor.SetMapper(mapper)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__contour_filter.GetOutputPort())
-
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    ContourVisualizer(__window.renderer).setup("objects/subset.vtk")
-    ContourVisualizer(__window.renderer).setup("objects/density.vtk")
+    contour_visualizer(window.renderer, "objects/subset.vtk")
+    contour_visualizer(window.renderer, "objects/density.vtk")
 
     # This polygonal data vtk file does not work
-    #ContourVisualizer(__window.renderer).setup("objects/honolulu.vtk")
+    #contour_visualizer(__window.renderer, "objects/honolulu.vtk")
 
-    __window.setup((700.0, 0.0, 500.0))
+    window.setup((100.0, 0.0, 150.0))

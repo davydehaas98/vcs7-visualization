@@ -7,56 +7,53 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class Glyph3DVisualizer:
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+def glyph_3d_visualizer(renderer, file_name):
+    """Create glyph 3D visualizer"""
 
-        self.__reader = vtkStructuredGridReader()
-        self.__arrow = vtkArrowSource()
-        self.__glyph_3d = vtkGlyph3D()
-        self.__mapper = vtkPolyDataMapper()
-        self.__actor = vtkActor()
+    # Initialize variables
+    reader = vtkStructuredGridReader()
+    arrow = vtkArrowSource()
+    glyph_3d = vtkGlyph3D()
+    mapper = vtkPolyDataMapper()
+    actor = vtkActor()
 
-    def setup(self, file_name):
-        """Setup the glyph 3D visualizer"""
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set arrow
+    arrow.SetTipLength(0.25)
+    arrow.SetTipRadius(0.1)
+    arrow.SetTipResolution(10)
 
-        # Set arrow
-        self.__arrow.SetTipLength(0.25)
-        self.__arrow.SetTipRadius(0.1)
-        self.__arrow.SetTipResolution(10)
+    # Set glyph 3D
+    glyph_3d.SetInputConnection(reader.GetOutputPort())
+    glyph_3d.SetSourceConnection(arrow.GetOutputPort())
+    glyph_3d.SetVectorModeToUseVector()
+    glyph_3d.SetColorModeToColorByScalar()
 
-        # Set glyph 3D
-        self.__glyph_3d.SetInputConnection(self.__reader.GetOutputPort())
-        self.__glyph_3d.SetSourceConnection(self.__arrow.GetOutputPort())
-        self.__glyph_3d.SetVectorModeToUseVector()
-        self.__glyph_3d.SetColorModeToColorByScalar()
+    # Uncomment one of the three methods below to set the scale mode
+    glyph_3d.SetScaleModeToDataScalingOff()
+    #glyph_3d.SetScaleModeToScaleByScalar()
+    #glyph_3d.SetScaleModeToScaleByVector()
 
-        # Uncomment one of the three methods below to set the scale mode
-        self.__glyph_3d.SetScaleModeToDataScalingOff()
-        #self.__glyph_3d.SetScaleModeToScaleByScalar()
-        #self.__glyph_3d.SetScaleModeToScaleByVector()
+    glyph_3d.OrientOn()
+    glyph_3d.SetScaleFactor(0.2)
 
-        self.__glyph_3d.OrientOn()
-        self.__glyph_3d.SetScaleFactor(0.2)
+    # Set mapper
+    mapper.SetInputConnection(glyph_3d.GetOutputPort())
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__glyph_3d.GetOutputPort())
+    # Set actor
+    actor.SetMapper(mapper)
 
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    Glyph3DVisualizer(__window.renderer).setup("objects/density.vtk")
+    glyph_3d_visualizer(window.renderer, "objects/density.vtk")
 
-    __window.setup((0.0, 0.0, 300.0))
+    window.setup((0.0, 0.0, 300.0))

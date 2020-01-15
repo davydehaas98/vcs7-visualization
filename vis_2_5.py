@@ -8,76 +8,72 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class SLCVisualizer:
+def slc_visualizer(renderer, file_name, sample_rate):
+    """Create SLC visualizer"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    reader = vtkSLCReader()
+    extract_voi = vtkExtractVOI()
 
-        self.__reader = vtkSLCReader()
-        self.__extract_voi = vtkExtractVOI()
+    contour_filter = vtkContourFilter()
+    contour_mapper = vtkPolyDataMapper()
+    contour_properties = vtkProperty()
+    contour_actor = vtkActor()
 
-        self.__contour_filter = vtkContourFilter()
-        self.__mapper = vtkPolyDataMapper()
-        self.__property = vtkProperty()
-        self.__actor = vtkActor()
+    outline_filter = vtkOutlineFilter()
+    outline_mapper = vtkPolyDataMapper()
+    outline_properties = vtkProperty()
+    outline_actor = vtkActor()
 
-        self.__outline_filter = vtkOutlineFilter()
-        self.__outline_mapper = vtkPolyDataMapper()
-        self.__outline_property = vtkProperty()
-        self.__outline_actor = vtkActor()
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-    def setup(self, file_name, sample_rate):
-        """Setup the SLC visualizer"""
+    # Extract volume of interest to subsample the data for faster rendering
+    extract_voi.SetInputConnection(reader.GetOutputPort())
+    extract_voi.SetSampleRate(sample_rate, 1, 1)
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set contour filter
+    contour_filter.SetInputConnection(extract_voi.GetOutputPort())
+    contour_filter.SetValue(0, 80.0)
 
-        # Extract volume of interest to subsample the data for faster rendering
-        self.__extract_voi.SetInputConnection(self.__reader.GetOutputPort())
-        self.__extract_voi.SetSampleRate(sample_rate, 1, 1)
+    # Set contour mapper
+    contour_mapper.SetInputConnection(contour_filter.GetOutputPort())
+    contour_mapper.ScalarVisibilityOff()
 
-        # Set contour filter
-        self.__contour_filter.SetInputConnection(self.__extract_voi.GetOutputPort())
-        self.__contour_filter.SetValue(0, 80.0)
+    # Set contour properties
+    contour_properties.SetColor(1.0, 1.0, 1.0)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__contour_filter.GetOutputPort())
-        self.__mapper.ScalarVisibilityOff()
+    # Set contour actor
+    contour_actor.SetMapper(contour_mapper)
+    contour_actor.SetProperty(contour_properties)
 
-        # Set property
-        self.__property.SetColor(1.0, 1.0, 1.0)
+    # Set outline filter
+    outline_filter.SetInputConnection(extract_voi.GetOutputPort())
 
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-        self.__actor.SetProperty(self.__property)
+    # Set outline mapper
+    outline_mapper.SetInputConnection(outline_filter.GetOutputPort())
 
-        # Set outline filter
-        self.__outline_filter.SetInputConnection(self.__extract_voi.GetOutputPort())
+    # Set outline properties
+    outline_properties.SetColor(0.2, 0.2, 0.2)
 
-        # Set outline mapper
-        self.__outline_mapper.SetInputConnection(self.__outline_filter.GetOutputPort())
+    # Set outline actor
+    outline_actor.SetMapper(outline_mapper)
+    outline_actor.SetProperty(outline_properties)
 
-        # Set property
-        self.__outline_property.SetColor(0.2, 0.2, 0.2)
-
-        # Set outline actor
-        self.__outline_actor.SetMapper(self.__outline_mapper)
-        self.__outline_actor.SetProperty(self.__outline_property)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
-        self.__renderer.AddActor(self.__outline_actor)
+    # Add actor to the window renderer
+    renderer.AddActor(contour_actor)
+    renderer.AddActor(outline_actor)
 
 
-# Run the program
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    SLCVisualizer(__window.renderer).setup("objects/vw_knee.slc", 3)
+    slc_visualizer(window.renderer, "objects/vw_knee.slc", 3)
 
-    # The assignment states that you have to try a surface value of 0.5, but you can only enter integers higher than 0
-    SLCVisualizer(__window.renderer).setup("objects/neghip.slc", 2)
+    # The assignment states that you have to try a surface value of 0.5,
+    # but you can only enter integers higher than 0
+    slc_visualizer(window.renderer, "objects/neghip.slc", 2)
 
-    __window.setup((700.0, 0.0, 500.0))
+    window.setup((700.0, 0.0, 500.0))

@@ -7,52 +7,49 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class ExtractVOIVisualizer:
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+def extract_voi_visualizer(renderer):
+    """Create volume of interest extractor visualizer"""
 
-        self.__quadric = vtkQuadric()
-        self.__sample = vtkSampleFunction()
-        self.__extract_voi = vtkExtractVOI()
-        self.__contour_filter = vtkContourFilter()
-        self.__mapper = vtkPolyDataMapper()
-        self.__actor = vtkActor()
+    # Initiate variables
+    quadric = vtkQuadric()
+    sample = vtkSampleFunction()
+    extract_voi = vtkExtractVOI()
+    contour_filter = vtkContourFilter()
+    mapper = vtkPolyDataMapper()
+    actor = vtkActor()
 
-    def setup(self):
-        """Setup volume of interest extractor visualizer"""
+    # Set quadric
+    quadric.SetCoefficients(0.5, 1.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.2, 0.0, 0.0)
 
-        # Set quadric
-        self.__quadric.SetCoefficients(0.5, 1.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.2, 0.0, 0.0)
+    # Set sample
+    sample.SetSampleDimensions(30, 30, 30)
+    sample.SetImplicitFunction(quadric)
+    sample.ComputeNormalsOff()
 
-        # Set sample
-        self.__sample.SetSampleDimensions(30, 30, 30)
-        self.__sample.SetImplicitFunction(self.__quadric)
-        self.__sample.ComputeNormalsOff()
+    # Set extract volume of interest
+    extract_voi.SetInputConnection(sample.GetOutputPort())
+    extract_voi.SetVOI(0, 29, 0, 29, 15, 15)
+    extract_voi.SetSampleRate(1, 2, 3)
 
-        # Set extract volume of interest
-        self.__extract_voi.SetInputConnection(self.__sample.GetOutputPort())
-        self.__extract_voi.SetVOI(0, 29, 0, 29, 15, 15)
-        self.__extract_voi.SetSampleRate(1, 2, 3)
+    # Set contour filter
+    contour_filter.SetInputConnection(extract_voi.GetOutputPort())
+    contour_filter.GenerateValues(13, 0.0, 1.2)
 
-        # Set contour filter
-        self.__contour_filter.SetInputConnection(self.__extract_voi.GetOutputPort())
-        self.__contour_filter.GenerateValues(13, 0.0, 1.2)
+    # Set mapper
+    mapper.SetInputConnection(contour_filter.GetOutputPort())
+    mapper.SetScalarRange(0.0, 1.2)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__contour_filter.GetOutputPort())
-        self.__mapper.SetScalarRange(0.0, 1.2)
+    # Set actor
+    actor.SetMapper(mapper)
 
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    ExtractVOIVisualizer(__window.renderer).setup()
+    extract_voi_visualizer(window.renderer)
 
-    __window.setup((0.0, 0.0, 300.0))
+    window.setup((0.0, 0.0, 300.0))

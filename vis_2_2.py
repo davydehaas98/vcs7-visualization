@@ -8,98 +8,88 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-class VTKPolyDataVisualizer:
+def vtk_poly_data_visualizer(renderer, file_name, color=None, opacity=None, position=None, rotation=None):
+    """Setup the VTK poly data visualizer"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    reader = vtkPolyDataReader()
+    transform = vtkTransform()
+    transform_filter = vtkTransformFilter()
+    mapper = vtkPolyDataMapper()
+    properties = vtkProperty()
+    actor = vtkActor()
 
-        self.__reader = vtkPolyDataReader()
-        self.__transform = vtkTransform()
-        self.__transform_filter = vtkTransformFilter()
-        self.__mapper = vtkPolyDataMapper()
-        self.__property = vtkProperty()
-        self.__actor = vtkActor()
+    # Set optional arguments
+    color = color or (1.0, 0.0, 0.0)
+    opacity = opacity or 1.0
+    rotation = rotation or (0.0, 0.0, 0.0, 0.0)
+    position = position or (0.0, 0.0, 0.0)
 
-    def setup(self, file_name, color=None, opacity=None, position=None, rotation=None):
-        """Setup the VTK poly data visualizer"""
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-        # Set optional arguments
-        color = color or (1.0, 0.0, 0.0)
-        opacity = opacity or 1.0
-        rotation = rotation or (0.0, 0.0, 0.0, 0.0)
-        position = position or (0.0, 0.0, 0.0)
+    # Set transform
+    transform.RotateWXYZ(*rotation)
+    transform.Translate(position)
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set transform filter
+    transform_filter.SetInputConnection(reader.GetOutputPort())
+    transform_filter.SetTransform(transform)
+    transform_filter.Update()
 
-        # Set transform
-        self.__transform.RotateWXYZ(*rotation)
-        self.__transform.Translate(position)
+    # Set mapper
+    mapper.SetInputConnection(transform_filter.GetOutputPort())
+    mapper.Update()
 
-        # Set transform filter
-        self.__transform_filter.SetInputConnection(self.__reader.GetOutputPort())
-        self.__transform_filter.SetTransform(self.__transform)
-        self.__transform_filter.Update()
+    # Set properties
+    properties.SetColor(color)
+    properties.SetOpacity(opacity)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__transform_filter.GetOutputPort())
-        self.__mapper.Update()
+    # Set actor
+    actor.SetMapper(mapper)
+    actor.SetProperty(properties)
 
-        # Set property
-        self.__property.SetColor(color)
-        self.__property.SetOpacity(opacity)
-
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-        self.__actor.SetProperty(self.__property)
-
-        # Add reader actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add reader actor to the window renderer
+    renderer.AddActor(actor)
 
 
-class VTKStructuredPointsVisualizer:
+def vtk_structured_points_visualizer(renderer, file_name, color=None):
+    """Create VTK structured points visualizer"""
 
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+    # Initialize variables
+    reader = vtkStructuredPointsReader()
+    mapper = vtkDataSetMapper()
+    properties = vtkProperty()
+    actor = vtkActor()
 
-        self.__reader = vtkStructuredPointsReader()
-        self.__mapper = vtkDataSetMapper()
-        self.__property = vtkProperty()
-        self.__actor = vtkActor()
+    # Set optional arguments
+    color = color or (1.0, 0.0, 0.0)
 
-    def setup(self, file_name, color=None):
-        """Setup the VTK structured points visualizer"""
+    # Set reader
+    reader.SetFileName(file_name)
+    reader.Update()
 
-        # Set optional arguments
-        color = color or (1.0, 0.0, 0.0)
+    # Set mapper
+    mapper.SetInputConnection(reader.GetOutputPort())
+    mapper.Update()
 
-        # Set reader
-        self.__reader.SetFileName(file_name)
-        self.__reader.Update()
+    # Set properties
+    properties.SetColor(color)
 
-        # Set mapper
-        self.__mapper.SetInputConnection(self.__reader.GetOutputPort())
-        self.__mapper.Update()
+    # Set actor
+    actor.SetMapper(mapper)
+    actor.SetProperty(properties)
 
-        # Set property
-        self.__property.SetColor(color)
-
-        # Set actor
-        self.__actor.SetMapper(self.__mapper)
-        self.__actor.SetProperty(self.__property)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__actor)
+    # Add actor to the window renderer
+    renderer.AddActor(actor)
 
 
-# Run the program
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    VTKPolyDataVisualizer(__window.renderer).setup("objects/skin.vtk")
-    VTKStructuredPointsVisualizer(__window.renderer).setup("objects/brain.vtk")
+    vtk_poly_data_visualizer(window.renderer, "objects/skin.vtk")
+    vtk_structured_points_visualizer(window.renderer, "objects/brain.vtk")
 
-    __window.setup((0.0, 0.0, 1000.0))
+    window.setup((0.0, 0.0, 1000.0))
