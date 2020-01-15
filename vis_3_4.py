@@ -1,86 +1,104 @@
 from numpy import loadtxt
+from utils.window import Window
 from vtkmodules.util.numpy_support import numpy_to_vtk
 from vtkmodules.all import (
     vtkUnstructuredGrid, vtkPoints,
-    vtkDoubleArray, vtkArrowSource,
-    vtkSphereSource, vtkGlyph3D,
-    vtkPolyDataMapper, vtkActor,
+    vtkArrowSource, vtkSphereSource,
+    vtkGlyph3D, vtkPolyDataMapper,
+    vtkActor,
 )
 
-from utils.window import Window
+
+def raw_data_visualizer(renderer, coordinates_text_file, vectors_text_file):
+    """Create Raw data visualizer"""
+
+    # Set unstructured grid
+    unstructured_grid = create_unstructured_grid(coordinates_text_file, vectors_text_file)
+
+    # Set sphere actor
+    sphere_actor = create_sphere_actor(unstructured_grid)
+
+    # Set arrow actor
+    arrow_actor = create_arrow_actor(unstructured_grid)
+
+    # Add actors to the window renderer
+    renderer.AddActor(sphere_actor)
+    renderer.AddActor(arrow_actor)
 
 
-class RawDataVisualizer:
-    def __init__(self, renderer):
-        # Renderer variable is needed to add the actor
-        self.__renderer = renderer
+def create_unstructured_grid(coordinates_text_file, vectors_text_file) -> vtkUnstructuredGrid:
+    """Read out .txt files with coordinates and vectors and create a vtkUnstructuredGrid object"""
 
-        self.__points = vtkPoints()
-        self.__vectors = vtkDoubleArray()
-        self.__unstructured_grid = vtkUnstructuredGrid()
-        self.__arrow = vtkArrowSource()
-        self.__sphere = vtkSphereSource()
-        self.__sphere_glyph_3d = vtkGlyph3D()
-        self.__arrow_glyph_3d = vtkGlyph3D()
-        self.__sphere_mapper = vtkPolyDataMapper()
-        self.__arrow_mapper = vtkPolyDataMapper()
-        self.__sphere_actor = vtkActor()
-        self.__arrow_actor = vtkActor()
+    # Set points as vtkPoints from coordinates numpy array
+    points = vtkPoints()
+    points.SetData(numpy_to_vtk(loadtxt(fname=coordinates_text_file), deep=True))
 
-    def setup(self, coordinates_text_file, vectors_text_file):
-        """Setup Raw data visualizer"""
+    # Set vectors as vtkDoubleArray from vectors numpy array
+    vectors = numpy_to_vtk(loadtxt(fname=vectors_text_file), deep=True)
 
-        # Set coordinates numpy array
-        __coordinates = loadtxt(fname=coordinates_text_file)
-
-        # Set points as vtkPoints from coordinates numpy array
-        self.__points.SetData(numpy_to_vtk(__coordinates, deep=True))
-
-        # Set values numpy array
-        __values = loadtxt(fname=vectors_text_file)
-
-        # Set vectors as vtkDoubleArray from values numpy array
-        self.__vectors = numpy_to_vtk(__values, deep=True)
-
-        # Set unstructured grid
-        self.__unstructured_grid.SetPoints(self.__points)
-        self.__unstructured_grid.GetPointData().SetVectors(self.__vectors)
-
-        print(self.__points)
-        print(self.__unstructured_grid)
-
-        # Set sphere glyph 3D
-        self.__sphere.SetRadius(0.1)
-        self.__sphere_glyph_3d.SetSourceConnection(self.__sphere.GetOutputPort())
-        self.__sphere_glyph_3d.SetVectorModeToUseVector()
-        self.__sphere_glyph_3d.OrientOn()
-        self.__sphere_glyph_3d.SetScaleFactor(0.2)
-
-        # Set arrow glyph 3D
-        self.__arrow.SetTipLength(5)
-        self.__arrow.SetTipRadius(1)
-        self.__arrow.SetTipResolution(10)
-        self.__arrow_glyph_3d.SetSourceConnection(self.__arrow.GetOutputPort())
-        self.__sphere_glyph_3d.SetVectorModeToUseVector()
-        self.__sphere_glyph_3d.OrientOn()
-        self.__sphere_glyph_3d.SetScaleFactor(0.2)
-
-        # Set mapper
-        self.__sphere_mapper.SetInputConnection(self.__sphere_glyph_3d.GetOutputPort())
-        self.__arrow_mapper.SetInputConnection(self.__arrow_glyph_3d.GetOutputPort())
-
-        # Set actor
-        self.__sphere_actor.SetMapper(self.__sphere_mapper)
-        self.__arrow_actor.SetMapper(self.__arrow_mapper)
-
-        # Add actor to the window renderer
-        self.__renderer.AddActor(self.__sphere_actor)
-        self.__renderer.AddActor(self.__arrow_actor)
+    # Set unstructured grid
+    unstructured_grid = vtkUnstructuredGrid()
+    unstructured_grid.SetPoints(points)
+    unstructured_grid.GetPointData().SetVectors(vectors)
+    return unstructured_grid
 
 
+def create_sphere_actor(unstructured_grid) -> vtkActor:
+    """Create a sphere within a vtkActor"""
+
+    # Set sphere
+    sphere = vtkSphereSource()
+    sphere.SetRadius(0.1)
+
+    # Set sphere glyph 3D
+    sphere_glyph = create_glyph_3d(unstructured_grid, sphere)
+
+    # Set sphere mapper
+    sphere_mapper = vtkPolyDataMapper()
+    sphere_mapper.SetInputConnection(sphere_glyph.GetOutputPort())
+
+    # Set sphere actor
+    sphere_actor = vtkActor()
+    sphere_actor.SetMapper(sphere_mapper)
+    return sphere_actor
+
+
+def create_arrow_actor(unstructured_grid) -> vtkActor:
+    """Create an arrow within a vtkActor"""
+
+    # Set arrow
+    arrow = vtkArrowSource()
+    arrow.SetTipLength(0.4)
+    arrow.SetTipRadius(0.2)
+    arrow.SetTipResolution(50)
+
+    # Set arrow glyph 3D
+    arrow_glyph = create_glyph_3d(unstructured_grid, arrow)
+
+    # Set arrow mapper
+    arrow_mapper = vtkPolyDataMapper()
+    arrow_mapper.SetInputConnection(arrow_glyph.GetOutputPort())
+
+    # Set arrow actor
+    arrow_actor = vtkActor()
+    arrow_actor.SetMapper(arrow_mapper)
+    return arrow_actor
+
+
+def create_glyph_3d(input_data, source) -> vtkGlyph3D:
+    glyph = vtkGlyph3D()
+    glyph.SetInputData(input_data)
+    glyph.SetSourceConnection(source.GetOutputPort())
+    glyph.SetVectorModeToUseVector()
+    glyph.OrientOn()
+    glyph.SetScaleFactor(0.2)
+    return glyph
+
+
+# Execute only if run as a script
 if __name__ == '__main__':
-    __window = Window()
+    window = Window()
 
-    RawDataVisualizer(__window.renderer).setup("objects/coordinates.txt", "objects/vectors.txt")
+    raw_data_visualizer(window.renderer, "objects/coordinates.txt", "objects/vectors.txt")
 
-    __window.setup((0.0, 0.0, 300.0))
+    window.setup((0.0, 0.0, 5.0))
