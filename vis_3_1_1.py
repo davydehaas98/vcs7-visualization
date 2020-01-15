@@ -52,6 +52,6 @@ def setup_lookup_table(lookup_table, colors, hue):
 if __name__ == '__main__':
     window = Window()
 
-    color_visualizer(window.renderer, "objects/vtk/density.vtk", (0.0, 1.0))
+    color_visualizer(window.renderer, "files/vtk/density.vtk", (0.0, 1.0))
 
     window.setup((0.0, 0.0, 100.0))

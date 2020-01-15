@@ -38,6 +38,6 @@ def mip_volume_renderer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    mip_volume_renderer(window.renderer, "objects/vtk/torso.vtk")
+    mip_volume_renderer(window.renderer, "files/vtk/torso.vtk")
 
     window.setup((0.0, 0.0, 100.0))

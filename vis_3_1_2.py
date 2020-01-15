@@ -37,10 +37,10 @@ def contour_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    contour_visualizer(window.renderer, "objects/vtk/subset.vtk")
-    contour_visualizer(window.renderer, "objects/vtk/density.vtk")
+    contour_visualizer(window.renderer, "files/vtk/subset.vtk")
+    contour_visualizer(window.renderer, "files/vtk/density.vtk")
 
     # This polygonal data vtk file does not work
-    #contour_visualizer(__window.renderer, "objects/honolulu.vtk")
+    #contour_visualizer(__window.renderer, "files/honolulu.vtk")
 
     window.setup((100.0, 0.0, 150.0))

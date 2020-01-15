@@ -54,6 +54,6 @@ def glyph_3d_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    glyph_3d_visualizer(window.renderer, "objects/vtk/density.vtk")
+    glyph_3d_visualizer(window.renderer, "files/vtk/density.vtk")
 
     window.setup((0.0, 0.0, 300.0))

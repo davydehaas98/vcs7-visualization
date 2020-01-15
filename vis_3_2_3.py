@@ -56,6 +56,6 @@ def streamline_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    streamline_visualizer(window.renderer, "objects/vtk/density.vtk")
+    streamline_visualizer(window.renderer, "files/vtk/density.vtk")
 
     window.setup((0.0, 0.0, 100.0))

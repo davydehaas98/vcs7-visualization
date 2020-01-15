@@ -49,6 +49,6 @@ def obj_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    obj_visualizer(window.renderer, "objects/obj/cactus.obj")
+    obj_visualizer(window.renderer, "files/obj/cactus.obj")
 
     window.setup((0.0, 0.0, 2000.0))
