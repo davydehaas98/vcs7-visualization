@@ -63,7 +63,7 @@ if __name__ == '__main__':
     window = Window()
 
     # Clipping with a plane
-    clipper_visualizer(window.renderer, "objects/density.vtk", False)
+    clipper_visualizer(window.renderer, "objects/vtk/density.vtk", False)
 
     # Clipping with a sphere
     #clipper_visualizer(window.renderer, "objects/density.vtk", True)

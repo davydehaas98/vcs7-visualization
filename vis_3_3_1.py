@@ -44,6 +44,6 @@ def cutter_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    cutter_visualizer(window.renderer, "objects/density.vtk")
+    cutter_visualizer(window.renderer, "objects/vtk/density.vtk")
 
     window.setup((0.0, 0.0, 200.0))

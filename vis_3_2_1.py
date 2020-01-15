@@ -47,6 +47,6 @@ def hedgehog_visualizer(renderer, file_name, scale):
 if __name__ == '__main__':
     window = Window()
 
-    hedgehog_visualizer(window.renderer, "objects/density.vtk", 1.0)
+    hedgehog_visualizer(window.renderer, "objects/vtk/density.vtk", 1.0)
 
     window.setup((0.0, 0.0, 1500.0))

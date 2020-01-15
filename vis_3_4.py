@@ -99,6 +99,6 @@ def create_glyph_3d(input_data, source) -> vtkGlyph3D:
 if __name__ == '__main__':
     window = Window()
 
-    raw_data_visualizer(window.renderer, "objects/coordinates.txt", "objects/vectors.txt")
+    raw_data_visualizer(window.renderer, "objects/txt/coordinates.txt", "objects/txt/vectors.txt")
 
     window.setup((0.0, 0.0, 5.0))

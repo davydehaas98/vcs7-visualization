@@ -70,10 +70,10 @@ def slc_visualizer(renderer, file_name, sample_rate):
 if __name__ == '__main__':
     window = Window()
 
-    slc_visualizer(window.renderer, "objects/vw_knee.slc", 3)
+    slc_visualizer(window.renderer, "objects/slc/vw_knee.slc", 3)
 
     # The assignment states that you have to try a surface value of 0.5,
     # but you can only enter integers higher than 0
-    slc_visualizer(window.renderer, "objects/neghip.slc", 2)
+    slc_visualizer(window.renderer, "objects/slc/neghip.slc", 2)
 
     window.setup((700.0, 0.0, 500.0))
