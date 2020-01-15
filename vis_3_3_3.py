@@ -19,8 +19,8 @@ class ExtractVOIVisualizer:
         self.__mapper = vtkPolyDataMapper()
         self.__actor = vtkActor()
 
-    def setup(self, file_name):
-        """Setup Volume of interest extractor visualizer"""
+    def setup(self):
+        """Setup volume of interest extractor visualizer"""
 
         # Set quadric
         self.__quadric.SetCoefficients(0.5, 1.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.2, 0.0, 0.0)
@@ -53,6 +53,6 @@ class ExtractVOIVisualizer:
 if __name__ == '__main__':
     __window = Window()
 
-    ExtractVOIVisualizer(__window.renderer).setup("objects/density.vtk")
+    ExtractVOIVisualizer(__window.renderer).setup()
 
     __window.setup((0.0, 0.0, 300.0))

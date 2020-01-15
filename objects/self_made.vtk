@@ -1,8 +1,8 @@
-# vtk DataFile Version 4.2
+# vtk DataFile Version 3.0
 Self made vtk file for vis_2_3.py
 ASCII
 DATASET UNSTRUCTURED_GRID
-POINTS 9 int
+POINTS 9 float
 0 0 0
 0 1 0
 0 2 0
@@ -25,8 +25,9 @@ CELL_TYPES 4
 9
 9
 
+POINT_DATA 9
 SCALARS scalars int 1
-LOOKUP_TABLE color 
+LOOKUP_TABLE color
 0 0 0
 1 2 1
 0 0 0

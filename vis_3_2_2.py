@@ -53,6 +53,7 @@ class Glyph3DVisualizer:
         # Add actor to the window renderer
         self.__renderer.AddActor(self.__actor)
 
+
 if __name__ == '__main__':
     __window = Window()
 

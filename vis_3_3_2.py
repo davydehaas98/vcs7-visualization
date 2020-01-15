@@ -13,8 +13,12 @@ class ClipperVisualizer:
         self.__renderer = renderer
 
         self.__reader = vtkStructuredGridReader()
+
+        # To use the vtkClipDataSet().SetClipFunction we have to use implicit objects
+        # instead of PolyDataAlgorithm objects
         self.__sphere = vtkSphere()
         self.__plane = vtkPlane()
+
         self.__clip = vtkClipDataSet()
         self.__mapper = vtkDataSetMapper()
         self.__actor = vtkActor()

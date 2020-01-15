@@ -24,7 +24,7 @@ if __name__ == '__main__':
     VTKPolyDataVisualizer(__window.renderer).setup(
         "objects/frog/skin.vtk",
         color=__colors.GetColor3d("green"),
-        opacity=0.4,
+        opacity=0.25,
         rotation=(180.0, 0.0, 0.0, 1.0)
     )
     VTKPolyDataVisualizer(__window.renderer).setup("objects/frog/spleen.vtk", color=__colors.GetColor3d("violet"))
