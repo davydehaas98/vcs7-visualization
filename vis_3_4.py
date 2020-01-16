@@ -40,6 +40,7 @@ def create_unstructured_grid(coordinates_text_file, vectors_text_file) -> vtkUns
     unstructured_grid = vtkUnstructuredGrid()
     unstructured_grid.SetPoints(points)
     unstructured_grid.GetPointData().SetVectors(vectors)
+
     return unstructured_grid
 
 
@@ -51,16 +52,17 @@ def create_sphere_actor(unstructured_grid) -> vtkActor:
     sphere.SetRadius(0.1)
 
     # Set sphere glyph 3D
-    sphere_glyph = create_glyph_3d(unstructured_grid, sphere)
+    glyph = create_glyph_3d(unstructured_grid, sphere)
 
     # Set sphere mapper
-    sphere_mapper = vtkPolyDataMapper()
-    sphere_mapper.SetInputConnection(sphere_glyph.GetOutputPort())
+    mapper = vtkPolyDataMapper()
+    mapper.SetInputConnection(glyph.GetOutputPort())
 
     # Set sphere actor
-    sphere_actor = vtkActor()
-    sphere_actor.SetMapper(sphere_mapper)
-    return sphere_actor
+    actor = vtkActor()
+    actor.SetMapper(mapper)
+
+    return actor
 
 
 def create_arrow_actor(unstructured_grid) -> vtkActor:
@@ -73,16 +75,17 @@ def create_arrow_actor(unstructured_grid) -> vtkActor:
     arrow.SetTipResolution(50)
 
     # Set arrow glyph 3D
-    arrow_glyph = create_glyph_3d(unstructured_grid, arrow)
+    glyph = create_glyph_3d(unstructured_grid, arrow)
 
     # Set arrow mapper
-    arrow_mapper = vtkPolyDataMapper()
-    arrow_mapper.SetInputConnection(arrow_glyph.GetOutputPort())
+    mapper = vtkPolyDataMapper()
+    mapper.SetInputConnection(glyph.GetOutputPort())
 
     # Set arrow actor
-    arrow_actor = vtkActor()
-    arrow_actor.SetMapper(arrow_mapper)
-    return arrow_actor
+    actor = vtkActor()
+    actor.SetMapper(mapper)
+
+    return actor
 
 
 def create_glyph_3d(input_data, source) -> vtkGlyph3D:
@@ -92,6 +95,7 @@ def create_glyph_3d(input_data, source) -> vtkGlyph3D:
     glyph.SetVectorModeToUseVector()
     glyph.OrientOn()
     glyph.SetScaleFactor(0.2)
+
     return glyph
 
 

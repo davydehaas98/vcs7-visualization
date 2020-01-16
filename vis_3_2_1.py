@@ -1,7 +1,6 @@
 from vtkmodules.all import (
     vtkStructuredGridReader, vtkPolyDataMapper,
-    vtkLookupTable, vtkHedgeHog,
-    vtkActor,
+    vtkHedgeHog, vtkActor,
 )
 
 from utils.window import Window
@@ -14,7 +13,6 @@ def hedgehog_visualizer(renderer, file_name, scale):
     # Initialize variables
     reader = vtkStructuredGridReader()
     mapper = vtkPolyDataMapper()
-    lookup_table = vtkLookupTable()
     hedgehog = vtkHedgeHog()
     actor = vtkActor()
 
@@ -23,7 +21,7 @@ def hedgehog_visualizer(renderer, file_name, scale):
     reader.Update()
 
     # Set lookup table
-    setup_lookup_table(lookup_table, 1000, (1.0, 0.0))
+    lookup_table = setup_lookup_table(1000, (1.0, 0.0))
 
     # Set hedgehog
     hedgehog.SetInputConnection(reader.GetOutputPort())

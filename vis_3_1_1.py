@@ -11,7 +11,6 @@ def color_visualizer(renderer, file_name, scalar_range):
 
     # Initialize variables
     reader = vtkStructuredGridReader()
-    lookup_table = vtkLookupTable()
     mapper = vtkDataSetMapper()
     actor = vtkActor()
 
@@ -20,7 +19,7 @@ def color_visualizer(renderer, file_name, scalar_range):
     reader.Update()
 
     # Set lookup table
-    setup_lookup_table(lookup_table, 1000, (0.0, 1.0))
+    lookup_table = setup_lookup_table(1000, (0.0, 1.0))
 
     # Set mapper
     mapper.SetInputConnection(reader.GetOutputPort())
@@ -36,7 +35,9 @@ def color_visualizer(renderer, file_name, scalar_range):
     renderer.AddActor(actor)
 
 
-def setup_lookup_table(lookup_table, colors, hue):
+def setup_lookup_table(colors, hue) -> vtkLookupTable:
+    lookup_table = vtkLookupTable()
+
     lookup_table.SetNumberOfColors(colors)
     lookup_table.SetHueRange(hue)
     lookup_table.SetSaturationRange(1.0, 0.0)
@@ -46,6 +47,8 @@ def setup_lookup_table(lookup_table, colors, hue):
     # Range of scalars that will be mapped
     lookup_table.SetRange(0.0, 1.0)
     lookup_table.Build()
+
+    return lookup_table
 
 
 # Execute only if run as a script

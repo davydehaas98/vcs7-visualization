@@ -1,7 +1,6 @@
 from vtkmodules.all import (
     vtkStructuredPointsReader, vtkFixedPointVolumeRayCastMapper,
-    vtkVolumeProperty,
-    vtkVolume, vtkFixedPointVolumeRayCastMIPHelper,
+    vtkVolumeProperty, vtkVolume,
 )
 from utils.window import Window
 
