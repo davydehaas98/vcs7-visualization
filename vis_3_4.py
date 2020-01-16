@@ -9,7 +9,7 @@ from vtkmodules.all import (
 )
 
 
-def raw_data_visualizer(renderer, coordinates_text_file, vectors_text_file):
+def create_raw_data_visualizer(renderer, coordinates_text_file, vectors_text_file):
     """Create Raw data visualizer"""
 
     # Set unstructured grid
@@ -103,6 +103,6 @@ def create_glyph_3d(input_data, source) -> vtkGlyph3D:
 if __name__ == '__main__':
     window = Window()
 
-    raw_data_visualizer(window.renderer, "files/txt/coordinates.txt", "files/txt/vectors.txt")
+    create_raw_data_visualizer(window.renderer, "files/txt/coordinates.txt", "files/txt/vectors.txt")
 
     window.setup((0.0, 0.0, 5.0))

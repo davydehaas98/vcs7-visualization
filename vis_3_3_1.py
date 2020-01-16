@@ -7,7 +7,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def cutter_visualizer(renderer, file_name):
+def create_cutter_visualizer(renderer, file_name):
     """Create cutting visualizer"""
 
     # Initialize variables
@@ -44,6 +44,6 @@ def cutter_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    cutter_visualizer(window.renderer, "files/vtk/density.vtk")
+    create_cutter_visualizer(window.renderer, "files/vtk/density.vtk")
 
     window.setup((0.0, 0.0, 200.0))

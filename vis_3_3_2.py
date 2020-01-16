@@ -7,7 +7,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def clipper_visualizer(renderer, file_name, sphere):
+def create_clipper_visualizer(renderer, file_name, sphere):
     """Create cutting visualizer"""
 
     # Initialize variables
@@ -65,9 +65,9 @@ if __name__ == '__main__':
     window = Window()
 
     # Clipping with a plane
-    clipper_visualizer(window.renderer, "files/vtk/density.vtk", False)
+    create_clipper_visualizer(window.renderer, "files/vtk/density.vtk", False)
 
     # Clipping with a sphere
-    #clipper_visualizer(window.renderer, "files/density.vtk", True)
+    #create_clipper_visualizer(window.renderer, "files/density.vtk", True)
 
     window.setup((0.0, 0.0, 200.0))

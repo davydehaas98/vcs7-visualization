@@ -7,7 +7,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def obj_visualizer(renderer, file_name):
+def create_obj_visualizer(renderer, file_name):
     """Create obj visualizer"""
 
     # Initialize variables
@@ -49,6 +49,6 @@ def obj_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    obj_visualizer(window.renderer, "files/obj/cactus.obj")
+    create_obj_visualizer(window.renderer, "files/obj/cactus.obj")
 
     window.setup((0.0, 0.0, 2000.0))

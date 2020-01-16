@@ -7,7 +7,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def streamline_visualizer(renderer, file_name):
+def create_streamline_visualizer(renderer, file_name):
     """Create streamline visualizer"""
 
     # Initialize variables
@@ -56,6 +56,6 @@ def streamline_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    streamline_visualizer(window.renderer, "files/vtk/density.vtk")
+    create_streamline_visualizer(window.renderer, "files/vtk/density.vtk")
 
     window.setup((0.0, 0.0, 100.0))

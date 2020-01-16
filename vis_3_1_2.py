@@ -6,7 +6,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def contour_visualizer(renderer, file_name):
+def create_contour_visualizer(renderer, file_name):
     """Create contour visualizer"""
 
     # Initialize variables
@@ -37,10 +37,10 @@ def contour_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    contour_visualizer(window.renderer, "files/vtk/subset.vtk")
-    contour_visualizer(window.renderer, "files/vtk/density.vtk")
+    create_contour_visualizer(window.renderer, "files/vtk/subset.vtk")
+    create_contour_visualizer(window.renderer, "files/vtk/density.vtk")
 
     # This polygonal data vtk file does not work
-    #contour_visualizer(__window.renderer, "files/honolulu.vtk")
+    #create_contour_visualizer(__window.renderer, "files/honolulu.vtk")
 
     window.setup((100.0, 0.0, 150.0))

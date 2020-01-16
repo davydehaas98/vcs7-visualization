@@ -9,13 +9,8 @@ from utils.window import Window
 def create_cone(renderer, radius, height, resolution, direction, center, color):
     """Create cone"""
 
-    # Initialize variables
-    cone = vtkConeSource()
-    properties = vtkProperty()
-    mapper = vtkPolyDataMapper()
-    actor = vtkActor()
-
     # Set cone
+    cone = vtkConeSource()
     cone.SetRadius(radius)
     cone.SetHeight(height)
     cone.SetResolution(resolution)
@@ -23,15 +18,18 @@ def create_cone(renderer, radius, height, resolution, direction, center, color):
     cone.SetCenter(center)
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(cone.GetOutputPort())
 
     # Set properties
+    properties = vtkProperty()
     properties.SetColor(color)
     properties.SetDiffuse(0.7)
     properties.SetSpecular(0.4)
     properties.SetSpecularPower(20)
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
     actor.SetProperty(properties)
 

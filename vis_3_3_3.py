@@ -7,7 +7,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def extract_voi_visualizer(renderer):
+def create_extract_voi_visualizer(renderer):
     """Create volume of interest extractor visualizer"""
 
     # Initiate variables
@@ -50,6 +50,6 @@ def extract_voi_visualizer(renderer):
 if __name__ == '__main__':
     window = Window()
 
-    extract_voi_visualizer(window.renderer)
+    create_extract_voi_visualizer(window.renderer)
 
     window.setup((0.0, 0.0, 300.0))

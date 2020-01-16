@@ -6,7 +6,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def color_visualizer(renderer, file_name, scalar_range):
+def create_color_visualizer(renderer, file_name, scalar_range):
     """Create color visualizer"""
 
     # Initialize variables
@@ -19,7 +19,7 @@ def color_visualizer(renderer, file_name, scalar_range):
     reader.Update()
 
     # Set lookup table
-    lookup_table = setup_lookup_table(1000, (0.0, 1.0))
+    lookup_table = create_lookup_table(1000, (0.0, 1.0))
 
     # Set mapper
     mapper.SetInputConnection(reader.GetOutputPort())
@@ -35,7 +35,7 @@ def color_visualizer(renderer, file_name, scalar_range):
     renderer.AddActor(actor)
 
 
-def setup_lookup_table(colors, hue) -> vtkLookupTable:
+def create_lookup_table(colors, hue) -> vtkLookupTable:
     lookup_table = vtkLookupTable()
 
     lookup_table.SetNumberOfColors(colors)
@@ -55,6 +55,6 @@ def setup_lookup_table(colors, hue) -> vtkLookupTable:
 if __name__ == '__main__':
     window = Window()
 
-    color_visualizer(window.renderer, "files/vtk/density.vtk", (0.0, 1.0))
+    create_color_visualizer(window.renderer, "files/vtk/density.vtk", (0.0, 1.0))
 
     window.setup((0.0, 0.0, 100.0))

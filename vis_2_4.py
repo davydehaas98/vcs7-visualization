@@ -7,7 +7,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def texture_plane_visualizer(renderer, file_name):
+def create_texture_plane_visualizer(renderer, file_name):
     """Create texture plane"""
 
     # Initialize variables
@@ -39,6 +39,6 @@ def texture_plane_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    texture_plane_visualizer(window.renderer, "files/bmp/marbles.bmp")
+    create_texture_plane_visualizer(window.renderer, "files/bmp/marbles.bmp")
 
     window.setup((0.0, 0.0, 5.0))

@@ -6,7 +6,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def vtk_unstructured_grid_visualizer(renderer, file_name):
+def create_vtk_unstructured_grid_visualizer(renderer, file_name):
     """Create VTK unstructured grid visualizer"""
 
     # Initialize variables
@@ -45,6 +45,6 @@ def vtk_unstructured_grid_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    vtk_unstructured_grid_visualizer(window.renderer, "files/vtk/self_made.vtk")
+    create_vtk_unstructured_grid_visualizer(window.renderer, "files/vtk/self_made.vtk")
 
     window.setup((0.0, 0.0, 500.0))

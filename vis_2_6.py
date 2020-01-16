@@ -2,7 +2,7 @@ from vtkmodules.all import (
     vtkNamedColors,
 )
 from utils.window import Window
-from vis_2_2 import vtk_poly_data_visualizer
+from vis_2_2 import create_vtk_poly_data_visualizer
 
 
 # Execute only if run as a script
@@ -10,27 +10,27 @@ if __name__ == '__main__':
     window = Window()
     colors = vtkNamedColors()
 
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/blood.vtk", color=colors.GetColor3d("salmon"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/brain.vtk", color=colors.GetColor3d("beige"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/duodenum.vtk", color=colors.GetColor3d("orange"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/eye_retina.vtk", color=colors.GetColor3d("misty_rose"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/eye_white.vtk", color=colors.GetColor3d("white"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/heart.vtk", color=colors.GetColor3d("tomato"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/ileum.vtk", color=colors.GetColor3d("raspberry"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/kidney.vtk", color=colors.GetColor3d("banana"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/large_intestine.vtk", color=colors.GetColor3d("peru"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/liver.vtk", color=colors.GetColor3d("pink"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/lungs.vtk", color=colors.GetColor3d("powder_blue"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/nerves.vtk", color=colors.GetColor3d("carrot"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/skeleton.vtk", color=colors.GetColor3d("wheat"))
-    vtk_poly_data_visualizer(
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/blood.vtk", color=colors.GetColor3d("salmon"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/brain.vtk", color=colors.GetColor3d("beige"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/duodenum.vtk", color=colors.GetColor3d("orange"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/eye_retina.vtk", color=colors.GetColor3d("misty_rose"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/eye_white.vtk", color=colors.GetColor3d("white"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/heart.vtk", color=colors.GetColor3d("tomato"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/ileum.vtk", color=colors.GetColor3d("raspberry"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/kidney.vtk", color=colors.GetColor3d("banana"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/large_intestine.vtk", color=colors.GetColor3d("peru"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/liver.vtk", color=colors.GetColor3d("pink"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/lungs.vtk", color=colors.GetColor3d("powder_blue"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/nerves.vtk", color=colors.GetColor3d("carrot"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/skeleton.vtk", color=colors.GetColor3d("wheat"))
+    create_vtk_poly_data_visualizer(
         window.renderer,
         "files/vtk/frog/skin.vtk",
         color=colors.GetColor3d("green"),
         opacity=0.25,
         rotation=(180.0, 0.0, 0.0, 1.0)
     )
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/spleen.vtk", color=colors.GetColor3d("violet"))
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/stomach.vtk", color=colors.GetColor3d("plum"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/spleen.vtk", color=colors.GetColor3d("violet"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/stomach.vtk", color=colors.GetColor3d("plum"))
 
     window.setup((0.0, 0.0, 750.0))

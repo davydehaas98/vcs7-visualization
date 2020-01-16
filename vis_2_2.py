@@ -8,7 +8,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def vtk_poly_data_visualizer(renderer, file_name, color=None, opacity=None, position=None, rotation=None):
+def create_vtk_poly_data_visualizer(renderer, file_name, color=None, opacity=None, position=None, rotation=None):
     """Setup the VTK poly data visualizer"""
 
     # Initialize variables
@@ -54,7 +54,7 @@ def vtk_poly_data_visualizer(renderer, file_name, color=None, opacity=None, posi
     renderer.AddActor(actor)
 
 
-def vtk_structured_points_visualizer(renderer, file_name, color=None):
+def create_vtk_structured_points_visualizer(renderer, file_name, color=None):
     """Create VTK structured points visualizer"""
 
     # Initialize variables
@@ -89,7 +89,7 @@ def vtk_structured_points_visualizer(renderer, file_name, color=None):
 if __name__ == '__main__':
     window = Window()
 
-    vtk_poly_data_visualizer(window.renderer, "files/vtk/skin.vtk")
-    vtk_structured_points_visualizer(window.renderer, "files/vtk/brain.vtk")
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/skin.vtk")
+    create_vtk_structured_points_visualizer(window.renderer, "files/vtk/brain.vtk")
 
     window.setup((0.0, 0.0, 1000.0))

@@ -6,22 +6,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def contour_filter_mapper(reader, contour_value) -> vtkPolyDataMapper:
-
-    # Set contour filter
-    contour_filter = vtkContourFilter()
-    contour_filter.SetInputConnection(reader.GetOutputPort())
-    contour_filter.SetValue(1, contour_value)
-
-    # Set mapper
-    mapper = vtkPolyDataMapper()
-    mapper.SetInputConnection(contour_filter.GetOutputPort())
-    mapper.ScalarVisibilityOff()
-
-    return mapper
-
-
-def ct_scan_visualizer(renderer, file_prefix):
+def create_ct_scan_visualizer(renderer, file_prefix):
     """Visualize the CT scan"""
 
     # Set reader
@@ -36,14 +21,8 @@ def ct_scan_visualizer(renderer, file_prefix):
     # Set bone mapper with contour filter
     bone_mapper = contour_filter_mapper(reader, 1150)
 
-    # Set bone properties
-    bone_properties = vtkProperty()
-    bone_properties.SetColor(0.8, 0.8, 0.8)
-
-    # Set actor
-    bone_actor = vtkActor()
-    bone_actor.SetMapper(bone_mapper)
-    bone_actor.SetProperty(bone_properties)
+    # Set skin actor with properties
+    bone_actor = create_bone_actor(bone_mapper)
 
     # Add bone actor to the renderer
     renderer.AddActor(bone_actor)
@@ -51,20 +30,58 @@ def ct_scan_visualizer(renderer, file_prefix):
     # Set skin mapper with contour filter
     skin_mapper = contour_filter_mapper(reader, 500)
 
-    # Set skin properties
-    skin_properties = vtkProperty()
-    skin_properties.SetColor(0.7, 0.6, 0.4)
-    skin_properties.SetDiffuseColor(0.5, 0.5, 0.5)
-    skin_properties.SetSpecular(0.5)
-    skin_properties.SetOpacity(0.6)
-
-    # Set skin actor
-    skin_actor = vtkActor()
-    skin_actor.SetMapper(skin_mapper)
-    skin_actor.SetProperty(skin_properties)
+    # Set skin actor with properties
+    skin_actor = create_skin_actor(skin_mapper)
 
     # Add skin actor to renderer
     renderer.AddActor(skin_actor)
+
+
+def contour_filter_mapper(input, contour_value) -> vtkPolyDataMapper:
+
+    # Set contour filter
+    contour_filter = vtkContourFilter()
+    contour_filter.SetInputConnection(input.GetOutputPort())
+    contour_filter.SetValue(0, contour_value)
+
+    # Set mapper
+    mapper = vtkPolyDataMapper()
+    mapper.SetInputConnection(contour_filter.GetOutputPort())
+    # Set scalar visibility off so we can color the result ourselves
+    mapper.ScalarVisibilityOff()
+
+    return mapper
+
+
+def create_skin_actor(mapper) -> vtkActor:
+
+    # Set properties
+    properties = vtkProperty()
+    properties.SetColor(0.7, 0.6, 0.4)
+    properties.SetDiffuseColor(0.5, 0.5, 0.5)
+    properties.SetSpecular(0.5)
+    properties.SetOpacity(0.6)
+
+    # Set actor
+    actor = vtkActor()
+    actor.SetMapper(mapper)
+    actor.SetProperty(properties)
+
+    return actor
+
+
+def create_bone_actor(mapper) -> vtkActor:
+
+    # Set properties
+    properties = vtkProperty()
+    properties.SetColor(0.8, 0.8, 0.8)
+
+    # Set actor
+    actor = vtkActor()
+    actor.SetMapper(mapper)
+    actor.SetProperty(properties)
+
+    return actor
 
 
 # Execute only if run as a script
@@ -73,6 +90,6 @@ if __name__ == '__main__':
 
     # The original 2D sliced dataset was 256² pixels, but are again sliced to 64² pixels
     # That is why the files are called quarter
-    ct_scan_visualizer(window.renderer, "files/headsq/quarter")
+    create_ct_scan_visualizer(window.renderer, "files/headsq/quarter")
 
     window.setup((200.0, 500.0, 750.0))

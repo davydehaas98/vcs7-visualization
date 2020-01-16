@@ -4,10 +4,10 @@ from vtkmodules.all import (
 )
 
 from utils.window import Window
-from vis_3_1_1 import setup_lookup_table
+from vis_3_1_1 import create_lookup_table
 
 
-def hedgehog_visualizer(renderer, file_name, scale):
+def create_hedgehog_visualizer(renderer, file_name, scale):
     """Create hedgehog visualizer"""
 
     # Initialize variables
@@ -21,7 +21,7 @@ def hedgehog_visualizer(renderer, file_name, scale):
     reader.Update()
 
     # Set lookup table
-    lookup_table = setup_lookup_table(1000, (1.0, 0.0))
+    lookup_table = create_lookup_table(1000, (1.0, 0.0))
 
     # Set hedgehog
     hedgehog.SetInputConnection(reader.GetOutputPort())
@@ -45,6 +45,6 @@ def hedgehog_visualizer(renderer, file_name, scale):
 if __name__ == '__main__':
     window = Window()
 
-    hedgehog_visualizer(window.renderer, "files/vtk/density.vtk", 1.0)
+    create_hedgehog_visualizer(window.renderer, "files/vtk/density.vtk", 1.0)
 
     window.setup((0.0, 0.0, 1500.0))
