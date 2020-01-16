@@ -71,4 +71,4 @@ if __name__ == '__main__':
     # but you can only enter integers higher than 0
     create_slc_visualizer(window.renderer, "files/slc/neghip.slc", 2)
 
-    window.setup((700.0, 0.0, 500.0))
+    window.create((700.0, 0.0, 500.0))

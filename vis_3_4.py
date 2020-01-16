@@ -105,4 +105,4 @@ if __name__ == '__main__':
 
     create_raw_data_visualizer(window.renderer, "files/txt/coordinates.txt", "files/txt/vectors.txt")
 
-    window.setup((0.0, 0.0, 5.0))
+    window.create((0.0, 0.0, 5.0))

@@ -46,4 +46,4 @@ if __name__ == '__main__':
 
     create_cutter_visualizer(window.renderer, "files/vtk/density.vtk")
 
-    window.setup((0.0, 0.0, 200.0))
+    window.create((0.0, 0.0, 200.0))

@@ -42,7 +42,7 @@ class Window:
     def __init__(self):
         self.renderer = vtkRenderer()
 
-    def setup(self, position):
+    def create(self, position):
         """Setup the render window"""
 
         # Set camera

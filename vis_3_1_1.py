@@ -57,4 +57,4 @@ if __name__ == '__main__':
 
     create_color_visualizer(window.renderer, "files/vtk/density.vtk", (0.0, 1.0))
 
-    window.setup((0.0, 0.0, 100.0))
+    window.create((0.0, 0.0, 100.0))

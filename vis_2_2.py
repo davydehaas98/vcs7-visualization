@@ -92,4 +92,4 @@ if __name__ == '__main__':
     create_vtk_poly_data_visualizer(window.renderer, "files/vtk/skin.vtk")
     create_vtk_structured_points_visualizer(window.renderer, "files/vtk/brain.vtk")
 
-    window.setup((0.0, 0.0, 1000.0))
+    window.create((0.0, 0.0, 1000.0))

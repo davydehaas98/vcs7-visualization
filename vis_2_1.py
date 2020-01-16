@@ -51,4 +51,4 @@ if __name__ == '__main__':
 
     create_obj_visualizer(window.renderer, "files/obj/cactus.obj")
 
-    window.setup((0.0, 0.0, 2000.0))
+    window.create((0.0, 0.0, 2000.0))

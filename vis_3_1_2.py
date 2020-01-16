@@ -43,4 +43,4 @@ if __name__ == '__main__':
     # This polygonal data vtk file does not work
     #create_contour_visualizer(__window.renderer, "files/honolulu.vtk")
 
-    window.setup((100.0, 0.0, 150.0))
+    window.create((100.0, 0.0, 150.0))

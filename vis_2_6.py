@@ -10,19 +10,19 @@ if __name__ == '__main__':
     window = Window()
     colors = vtkNamedColors()
 
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/blood.vtk", color=colors.GetColor3d("salmon"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/brain.vtk", color=colors.GetColor3d("beige"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/duodenum.vtk", color=colors.GetColor3d("orange"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/eye_retina.vtk", color=colors.GetColor3d("misty_rose"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/eye_white.vtk", color=colors.GetColor3d("white"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/heart.vtk", color=colors.GetColor3d("tomato"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/ileum.vtk", color=colors.GetColor3d("raspberry"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/kidney.vtk", color=colors.GetColor3d("banana"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/large_intestine.vtk", color=colors.GetColor3d("peru"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/liver.vtk", color=colors.GetColor3d("pink"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/lungs.vtk", color=colors.GetColor3d("powder_blue"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/nerves.vtk", color=colors.GetColor3d("carrot"))
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/skeleton.vtk", color=colors.GetColor3d("wheat"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/blood.vtk", colors.GetColor3d("salmon"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/brain.vtk", colors.GetColor3d("beige"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/duodenum.vtk", colors.GetColor3d("orange"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/eye_retina.vtk", colors.GetColor3d("misty_rose"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/eye_white.vtk", colors.GetColor3d("white"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/heart.vtk", colors.GetColor3d("tomato"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/ileum.vtk", colors.GetColor3d("raspberry"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/kidney.vtk", colors.GetColor3d("banana"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/large_intestine.vtk", colors.GetColor3d("peru"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/liver.vtk", colors.GetColor3d("pink"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/lungs.vtk", colors.GetColor3d("powder_blue"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/nerves.vtk", colors.GetColor3d("carrot"))
+    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/skeleton.vtk", colors.GetColor3d("wheat"))
     create_vtk_poly_data_visualizer(
         window.renderer,
         "files/vtk/frog/skin.vtk",
@@ -33,4 +33,4 @@ if __name__ == '__main__':
     create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/spleen.vtk", color=colors.GetColor3d("violet"))
     create_vtk_poly_data_visualizer(window.renderer, "files/vtk/frog/stomach.vtk", color=colors.GetColor3d("plum"))
 
-    window.setup((0.0, 0.0, 750.0))
+    window.create((0.0, 0.0, 750.0))

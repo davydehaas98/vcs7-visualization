@@ -34,4 +34,4 @@ if __name__ == '__main__':
 
     create_text(window.renderer, "Hello World")
 
-    window.setup((0.0, 0.0, 500.0))
+    window.create((0.0, 0.0, 500.0))

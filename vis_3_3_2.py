@@ -70,4 +70,4 @@ if __name__ == '__main__':
     # Clipping with a sphere
     #create_clipper_visualizer(window.renderer, "files/density.vtk", True)
 
-    window.setup((0.0, 0.0, 200.0))
+    window.create((0.0, 0.0, 200.0))

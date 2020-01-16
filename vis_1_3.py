@@ -58,4 +58,4 @@ if __name__ == '__main__':
         (0.0, 1.0, 0.0)     # color
     )
 
-    window.setup((0.0, 0.0, 40.0))
+    window.create((0.0, 0.0, 40.0))

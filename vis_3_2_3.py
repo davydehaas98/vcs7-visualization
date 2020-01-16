@@ -58,4 +58,4 @@ if __name__ == '__main__':
 
     create_streamline_visualizer(window.renderer, "files/vtk/density.vtk")
 
-    window.setup((0.0, 0.0, 100.0))
+    window.create((0.0, 0.0, 100.0))

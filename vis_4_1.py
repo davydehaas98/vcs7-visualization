@@ -39,4 +39,4 @@ if __name__ == '__main__':
 
     create_mip_volume_renderer(window.renderer, "files/vtk/torso.vtk")
 
-    window.setup((0.0, 0.0, 100.0))
+    window.create((0.0, 0.0, 100.0))
