@@ -47,4 +47,4 @@ if __name__ == '__main__':
 
     create_vtk_unstructured_grid_visualizer(window.renderer, "files/vtk/self_made.vtk")
 
-    window.create((0.0, 0.0, 500.0))
+    window.create((0.0, 0.0, 15.0))
