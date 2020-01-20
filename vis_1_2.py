@@ -9,19 +9,17 @@ from utils.window import Window
 def create_text(renderer, text):
     """Create text"""
 
-    # Initialize variables
-    source = vtkTextSource()
-    mapper = vtkPolyDataMapper()
-    actor = vtkActor()
-
     # Set text
+    source = vtkTextSource()
     source.SetText(text)
     source.SetForegroundColor(1.0, 0.0, 0.0)
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(source.GetOutputPort())
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
 
     # Add actor to the window renderer

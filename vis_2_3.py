@@ -9,33 +9,20 @@ from utils.window import Window
 def create_vtk_unstructured_grid_visualizer(renderer, file_name):
     """Create VTK unstructured grid visualizer"""
 
-    # Initialize variables
-    reader = vtkUnstructuredGridReader()
-    mapper = vtkDataSetMapper()
-    properties = vtkProperty()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkUnstructuredGridReader()
     reader.SetFileName(file_name)
     reader.Update()
-    print(reader.GetOutput())
-
-    # Set scalar range
-    scalar_range = reader.GetOutput().GetScalarRange()
 
     # Set mapper
+    mapper = vtkDataSetMapper()
     mapper.SetInputConnection(reader.GetOutputPort())
-    mapper.SetScalarRange(scalar_range)
-    mapper.SetScalarModeToUsePointData()
+    mapper.SetScalarRange(reader.GetOutput().GetScalarRange())
     mapper.ScalarVisibilityOn()
 
-    # Set properties
-    properties.EdgeVisibilityOn()
-    properties.SetLineWidth(2.0)
-
     # Set  actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
-    actor.SetProperty(properties)
 
     # Add actor to the window renderer
     renderer.AddActor(actor)

@@ -10,34 +10,30 @@ from utils.window import Window
 def create_obj_visualizer(renderer, file_name):
     """Create obj visualizer"""
 
-    # Initialize variables
-    reader = vtkOBJReader()
-    transform = vtkTransform()
-    transform_filter = vtkTransformPolyDataFilter()
-    mapper = vtkPolyDataMapper()
-    properties = vtkProperty()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkOBJReader()
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set transform
+    transform = vtkTransform()
     transform.RotateWXYZ(0.0, 0.0, 0.0, 0.0)
     transform.Translate(0.0, 0.0, 0.0)
 
     # Set transform filter
+    transform_filter = vtkTransformPolyDataFilter()
     transform_filter.SetInputConnection(reader.GetOutputPort())
     transform_filter.SetTransform(transform)
-    transform_filter.Update()
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(transform_filter.GetOutputPort())
 
     # Set properties
+    properties = vtkProperty()
     properties.SetColor(1.0, 0.0, 0.0)
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
     actor.SetProperty(properties)
 

@@ -10,30 +10,28 @@ from utils.window import Window
 def create_cutter_visualizer(renderer, file_name):
     """Create cutting visualizer"""
 
-    # Initialize variables
-    reader = vtkStructuredGridReader()
-    plane = vtkPlane()
-    cutter = vtkCutter()
-    mapper = vtkPolyDataMapper()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkStructuredGridReader()
     reader.SetFileName(file_name)
     reader.Update()
 
     # Set plane
+    plane = vtkPlane()
     plane.SetOrigin(reader.GetOutput().GetCenter())
     plane.SetNormal(1.0, 1.0, 0.0)
 
     # Set cutter
+    cutter = vtkCutter()
     cutter.SetCutFunction(plane)
     cutter.SetInputConnection(reader.GetOutputPort())
     cutter.Update()
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(cutter.GetOutputPort())
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
 
     # Add actor to the window renderer

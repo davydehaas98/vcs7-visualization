@@ -11,7 +11,6 @@ def create_mip_volume_renderer(renderer, file_name):
     # Set reader
     reader = vtkStructuredPointsReader()
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set fixed point volume ray cast mapper
     mapper = vtkFixedPointVolumeRayCastMapper()

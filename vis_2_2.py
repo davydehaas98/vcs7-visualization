@@ -11,14 +11,6 @@ from utils.window import Window
 def create_vtk_poly_data_visualizer(renderer, file_name, color=None, opacity=None, position=None, rotation=None):
     """Setup the VTK poly data visualizer"""
 
-    # Initialize variables
-    reader = vtkPolyDataReader()
-    transform = vtkTransform()
-    transform_filter = vtkTransformFilter()
-    mapper = vtkPolyDataMapper()
-    properties = vtkProperty()
-    actor = vtkActor()
-
     # Set optional arguments
     color = color or (1.0, 0.0, 0.0)
     opacity = opacity or 1.0
@@ -26,27 +18,32 @@ def create_vtk_poly_data_visualizer(renderer, file_name, color=None, opacity=Non
     position = position or (0.0, 0.0, 0.0)
 
     # Set reader
+    reader = vtkPolyDataReader()
     reader.SetFileName(file_name)
     reader.Update()
 
     # Set transform
+    transform = vtkTransform()
     transform.RotateWXYZ(*rotation)
     transform.Translate(position)
 
     # Set transform filter
+    transform_filter = vtkTransformFilter()
     transform_filter.SetInputConnection(reader.GetOutputPort())
     transform_filter.SetTransform(transform)
     transform_filter.Update()
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(transform_filter.GetOutputPort())
-    mapper.Update()
 
     # Set properties
+    properties = vtkProperty()
     properties.SetColor(color)
     properties.SetOpacity(opacity)
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
     actor.SetProperty(properties)
 
@@ -57,27 +54,23 @@ def create_vtk_poly_data_visualizer(renderer, file_name, color=None, opacity=Non
 def create_vtk_structured_points_visualizer(renderer, file_name, color=None):
     """Create VTK structured points visualizer"""
 
-    # Initialize variables
-    reader = vtkStructuredPointsReader()
-    mapper = vtkDataSetMapper()
-    properties = vtkProperty()
-    actor = vtkActor()
-
     # Set optional arguments
     color = color or (1.0, 0.0, 0.0)
 
     # Set reader
+    reader = vtkStructuredPointsReader()
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set mapper
+    mapper = vtkDataSetMapper()
     mapper.SetInputConnection(reader.GetOutputPort())
-    mapper.Update()
 
     # Set properties
+    properties = vtkProperty()
     properties.SetColor(color)
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
     actor.SetProperty(properties)
 

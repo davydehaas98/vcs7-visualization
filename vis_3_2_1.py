@@ -10,31 +10,27 @@ from vis_3_1_1 import create_lookup_table
 def create_hedgehog_visualizer(renderer, file_name, scale):
     """Create hedgehog visualizer"""
 
-    # Initialize variables
-    reader = vtkStructuredGridReader()
-    mapper = vtkPolyDataMapper()
-    hedgehog = vtkHedgeHog()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkStructuredGridReader()
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set lookup table
     lookup_table = create_lookup_table(1000, (1.0, 0.0))
 
     # Set hedgehog
+    hedgehog = vtkHedgeHog()
     hedgehog.SetInputConnection(reader.GetOutputPort())
     hedgehog.SetScaleFactor(scale)
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(hedgehog.GetOutputPort())
     mapper.SetLookupTable(lookup_table)
     mapper.SetScalarRange(0.0, 1.0)
     mapper.ScalarVisibilityOn()
-    mapper.Update()
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
 
     # Add actor to the window renderer
@@ -45,6 +41,6 @@ def create_hedgehog_visualizer(renderer, file_name, scale):
 if __name__ == '__main__':
     window = Window()
 
-    create_hedgehog_visualizer(window.renderer, "files/vtk/density.vtk", 1.0)
+    create_hedgehog_visualizer(window.renderer, "files/vtk/density.vtk", 0.01)
 
-    window.create((0.0, 0.0, 1500.0))
+    window.create((0.0, 0.0, 100.0))

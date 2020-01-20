@@ -10,15 +10,9 @@ from utils.window import Window
 def create_clipper_visualizer(renderer, file_name, sphere):
     """Create cutting visualizer"""
 
-    # Initialize variables
-    reader = vtkStructuredGridReader()
-    clip_data_set = vtkClipDataSet()
-    mapper = vtkDataSetMapper()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkStructuredGridReader()
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set sphere or plane
     if sphere:
@@ -27,14 +21,17 @@ def create_clipper_visualizer(renderer, file_name, sphere):
         clip_function = create_plane_clip_function(reader)
 
     # Set cutter
+    clip_data_set = vtkClipDataSet()
     clip_data_set.SetClipFunction(clip_function)
     clip_data_set.SetInputConnection(reader.GetOutputPort())
     clip_data_set.Update()
 
     # Set mapper
+    mapper = vtkDataSetMapper()
     mapper.SetInputConnection(clip_data_set.GetOutputPort())
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
 
     # Add actor to the window renderer

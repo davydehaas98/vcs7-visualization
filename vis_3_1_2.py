@@ -9,24 +9,21 @@ from utils.window import Window
 def create_contour_visualizer(renderer, file_name):
     """Create contour visualizer"""
 
-    # Initialize variables
-    reader = vtkStructuredGridReader()
-    contour_filter = vtkContourFilter()
-    mapper = vtkPolyDataMapper()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkStructuredGridReader()
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set contour filter that generates polygonal data
+    contour_filter = vtkContourFilter()
     contour_filter.SetInputConnection(reader.GetOutputPort())
     contour_filter.SetValue(0, 0.26)
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(contour_filter.GetOutputPort())
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
 
     # Add actor to the window renderer

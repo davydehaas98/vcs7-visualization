@@ -10,24 +10,23 @@ from utils.window import Window
 def create_texture_plane_visualizer(renderer, file_name):
     """Create texture plane"""
 
-    # Initialize variables
-    plane = vtkPlaneSource()
-    reader = vtkBMPReader()
-    texture = vtkTexture()
-    mapper = vtkPolyDataMapper()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkBMPReader()
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set texture
+    texture = vtkTexture()
     texture.SetInputConnection(reader.GetOutputPort())
 
+    # Set Plane
+    plane = vtkPlaneSource()
+
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(plane.GetOutputPort())
 
     # Set actor
+    actor = vtkActor()
     actor.SetTexture(texture)
     actor.SetMapper(mapper)
 

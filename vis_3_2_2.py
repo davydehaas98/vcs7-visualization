@@ -10,23 +10,18 @@ from utils.window import Window
 def create_glyph_visualizer(renderer, file_name):
     """Create glyph 3D visualizer"""
 
-    # Initialize variables
-    reader = vtkStructuredGridReader()
-    arrow = vtkArrowSource()
-    glyph = vtkGlyph3D()
-    mapper = vtkPolyDataMapper()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkStructuredGridReader()
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set arrow
+    arrow = vtkArrowSource()
     arrow.SetTipLength(0.25)
     arrow.SetTipRadius(0.1)
     arrow.SetTipResolution(10)
 
     # Set glyph 3D
+    glyph = vtkGlyph3D()
     glyph.SetInputConnection(reader.GetOutputPort())
     glyph.SetSourceConnection(arrow.GetOutputPort())
     glyph.SetVectorModeToUseVector()
@@ -41,9 +36,11 @@ def create_glyph_visualizer(renderer, file_name):
     glyph.SetScaleFactor(0.2)
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(glyph.GetOutputPort())
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
 
     # Add actor to the window renderer

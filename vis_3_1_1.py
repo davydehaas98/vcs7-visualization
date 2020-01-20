@@ -16,7 +16,6 @@ def create_color_visualizer(renderer, file_name, scalar_range):
 
     # Set reader
     reader.SetFileName(file_name)
-    reader.Update()
 
     # Set lookup table
     lookup_table = create_lookup_table(1000, (0.0, 1.0))
@@ -26,7 +25,6 @@ def create_color_visualizer(renderer, file_name, scalar_range):
     mapper.SetLookupTable(lookup_table)
     mapper.SetScalarRange(scalar_range)
     mapper.ScalarVisibilityOn()
-    mapper.Update()
 
     # Set actor
     actor.SetMapper(mapper)

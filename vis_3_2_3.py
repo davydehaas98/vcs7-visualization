@@ -10,24 +10,22 @@ from utils.window import Window
 def create_streamline_visualizer(renderer, file_name):
     """Create streamline visualizer"""
 
-    # Initialize variables
-    reader = vtkStructuredGridReader()
-    points = vtkPointSource()
-    integrator = vtkRungeKutta4()
-    stream_tracer = vtkStreamTracer()
-    mapper = vtkPolyDataMapper()
-    actor = vtkActor()
-
     # Set reader
+    reader = vtkStructuredGridReader()
     reader.SetFileName(file_name)
     reader.Update()
 
     # Set points
+    points = vtkPointSource()
     points.SetRadius(3.0)
     points.SetCenter(reader.GetOutput().GetCenter())
     points.SetNumberOfPoints(100)
 
+    # Set integrator
+    integrator = vtkRungeKutta4()
+
     # Set stream tracer
+    stream_tracer = vtkStreamTracer()
     stream_tracer.SetInputConnection(reader.GetOutputPort())
     stream_tracer.SetSourceConnection(points.GetOutputPort())
 
@@ -43,9 +41,11 @@ def create_streamline_visualizer(renderer, file_name):
     stream_tracer.Update()
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(stream_tracer.GetOutputPort())
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
 
     # Add actor to the window renderer

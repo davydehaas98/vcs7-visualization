@@ -10,28 +10,26 @@ from vis_1_1 import create_cone
 def create_cylinder(renderer, radius, height, resolution, center, color):
     """Create cylinder"""
 
-    # Initialize variables
-    cylinder = vtkCylinderSource()
-    mapper = vtkPolyDataMapper()
-    properties = vtkProperty()
-    actor = vtkActor()
-
     # Set cylinder
+    cylinder = vtkCylinderSource()
     cylinder.SetRadius(radius)
     cylinder.SetHeight(height)
     cylinder.SetResolution(resolution)
     cylinder.SetCenter(center)
 
     # Set mapper
+    mapper = vtkPolyDataMapper()
     mapper.SetInputConnection(cylinder.GetOutputPort())
 
     # Set property
+    properties = vtkProperty()
     properties.SetColor(color)
     properties.SetDiffuse(0.7)
     properties.SetSpecular(0.4)
     properties.SetSpecularPower(20)
 
     # Set actor
+    actor = vtkActor()
     actor.SetMapper(mapper)
     actor.SetProperty(properties)
 
