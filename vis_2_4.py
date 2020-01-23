@@ -18,7 +18,7 @@ def create_texture_plane_visualizer(renderer, file_name):
     texture = vtkTexture()
     texture.SetInputConnection(reader.GetOutputPort())
 
-    # Set Plane
+    # Set plane
     plane = vtkPlaneSource()
 
     # Set mapper
