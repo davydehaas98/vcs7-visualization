@@ -8,17 +8,7 @@ from vtkmodules.all import (
 from utils.window import Window
 
 
-def create_slc_visualizer(renderer, file_name, sample_rate):
-    """Create SLC visualizer with contour and outline"""
-
-    # Set reader
-    reader = vtkSLCReader()
-    reader.SetFileName(file_name)
-
-    # Extract volume of interest to subsample the data for faster rendering
-    extract_voi = vtkExtractVOI()
-    extract_voi.SetInputConnection(reader.GetOutputPort())
-    extract_voi.SetSampleRate(sample_rate, 1, 1)
+def create_contour_actor(extract_voi) -> vtkActor:
 
     # Set contour filter
     contour_filter = vtkContourFilter()
@@ -39,6 +29,11 @@ def create_slc_visualizer(renderer, file_name, sample_rate):
     contour_actor.SetMapper(contour_mapper)
     contour_actor.SetProperty(contour_properties)
 
+    return contour_actor
+
+
+def create_outline_actor(extract_voi) -> vtkActor:
+
     # Set outline filter
     outline_filter = vtkOutlineFilter()
     outline_filter.SetInputConnection(extract_voi.GetOutputPort())
@@ -56,7 +51,28 @@ def create_slc_visualizer(renderer, file_name, sample_rate):
     outline_actor.SetMapper(outline_mapper)
     outline_actor.SetProperty(outline_properties)
 
-    # Add actor to the window renderer
+    return outline_actor
+
+
+def create_slc_visualizer(renderer, file_name, sample_rate):
+    """Create SLC visualizer with contour and outline"""
+
+    # Set reader
+    reader = vtkSLCReader()
+    reader.SetFileName(file_name)
+
+    # Extract volume of interest to subsample the data for faster rendering
+    extract_voi = vtkExtractVOI()
+    extract_voi.SetInputConnection(reader.GetOutputPort())
+    extract_voi.SetSampleRate(sample_rate, 1, 1)
+
+    # Set contour
+    contour_actor = create_contour_actor(extract_voi)
+
+    # set outline
+    outline_actor = create_outline_actor(extract_voi)
+
+    # Add actors to the window renderer
     renderer.AddActor(contour_actor)
     renderer.AddActor(outline_actor)
 

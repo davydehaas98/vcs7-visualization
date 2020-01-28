@@ -6,6 +6,19 @@ from vtkmodules.all import (
 )
 
 
+def create_light(position) -> vtkLight:
+    """Setup light"""
+
+    # Set light
+    light = vtkLight()
+    light.SetColor(1.0, 1.0, 1.0)
+    light.SetFocalPoint(0.0, 0.0, 0.0)
+    light.SetPosition(position)
+    light.PositionalOn()
+
+    return light
+
+
 def create_camera(position) -> vtkCamera:
     """Setup camera"""
 
@@ -24,32 +37,19 @@ def create_camera(position) -> vtkCamera:
     return camera
 
 
-def create_light(position) -> vtkLight:
-    """Setup light"""
-
-    # Set light
-    light = vtkLight()
-    light.SetColor(1.0, 1.0, 1.0)
-    light.SetFocalPoint(0.0, 0.0, 0.0)
-    light.SetPosition(position)
-    light.PositionalOn()
-
-    return light
-
-
 class Window:
 
     def __init__(self):
         self.renderer = vtkRenderer()
 
-    def create(self, position):
+    def create(self, camera_position):
         """Setup the render window"""
 
         # Set camera
-        camera = create_camera(position)
+        camera = create_camera(camera_position)
 
         # Set light
-        light = create_light(position)
+        light = create_light(camera_position)
 
         # Set renderer
         self.renderer.SetActiveCamera(camera)
