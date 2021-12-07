@@ -13,7 +13,7 @@ def create_knee_visualizer(renderer, contour_value, opacity, color):
 
     # Set reader
     reader = vtkSLCReader()
-    reader.SetFileName("files/slc/vw_knee.slc")
+    reader.SetFileName("resources/slc/vw_knee.slc")
 
     # Set extract volume of interest
     voi_extractor = vtkExtractVOI()

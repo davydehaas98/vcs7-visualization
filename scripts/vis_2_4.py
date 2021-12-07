@@ -38,6 +38,6 @@ def create_texture_plane_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    create_texture_plane_visualizer(window.renderer, "files/bmp/marbles.bmp")
+    create_texture_plane_visualizer(window.renderer, "../resources/bmp/marbles.bmp")
 
     window.create((0.0, 0.0, 5.0))

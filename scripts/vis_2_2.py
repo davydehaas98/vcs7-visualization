@@ -82,7 +82,7 @@ def create_vtk_structured_points_visualizer(renderer, file_name, color=None):
 if __name__ == '__main__':
     window = Window()
 
-    create_vtk_poly_data_visualizer(window.renderer, "files/vtk/skin.vtk")
-    create_vtk_structured_points_visualizer(window.renderer, "files/vtk/brain.vtk")
+    create_vtk_poly_data_visualizer(window.renderer, "../resources/vtk/skin.vtk")
+    create_vtk_structured_points_visualizer(window.renderer, "../resources/vtk/brain.vtk")
 
     window.create((0.0, 0.0, 1000.0))

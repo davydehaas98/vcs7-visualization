@@ -36,6 +36,6 @@ def create_mip_volume_renderer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    create_mip_volume_renderer(window.renderer, "files/vtk/torso.vtk")
+    create_mip_volume_renderer(window.renderer, "../resources/vtk/torso.vtk")
 
     window.create((0.0, 0.0, 100.0))

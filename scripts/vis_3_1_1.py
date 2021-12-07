@@ -53,6 +53,6 @@ def create_lookup_table(colors, hue) -> vtkLookupTable:
 if __name__ == '__main__':
     window = Window()
 
-    create_color_visualizer(window.renderer, "files/vtk/density.vtk", (0.0, 1.0))
+    create_color_visualizer(window.renderer, "../resources/vtk/density.vtk", (0.0, 1.0))
 
     window.create((0.0, 0.0, 100.0))

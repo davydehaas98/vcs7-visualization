@@ -51,6 +51,6 @@ def create_glyph_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    create_glyph_visualizer(window.renderer, "files/vtk/density.vtk")
+    create_glyph_visualizer(window.renderer, "../resources/vtk/density.vtk")
 
     window.create((0.0, 0.0, 300.0))

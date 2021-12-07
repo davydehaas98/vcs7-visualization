@@ -27,7 +27,7 @@ def create_raw_data_visualizer(renderer, coordinates_text_file, vectors_text_fil
 
 
 def create_unstructured_grid(coordinates_text_file, vectors_text_file) -> vtkUnstructuredGrid:
-    """Read out .txt files with coordinates and vectors and create a vtkUnstructuredGrid object"""
+    """Read out .txt resources with coordinates and vectors and create a vtkUnstructuredGrid object"""
 
     # Set points as vtkPoints from coordinates numpy array
     points = vtkPoints()
@@ -103,6 +103,6 @@ def create_glyph_3d(input_data, source) -> vtkGlyph3D:
 if __name__ == '__main__':
     window = Window()
 
-    create_raw_data_visualizer(window.renderer, "files/txt/coordinates.txt", "files/txt/vectors.txt")
+    create_raw_data_visualizer(window.renderer, "../resources/txt/coordinates.txt", "resources/txt/vectors.txt")
 
     window.create((0.0, 0.0, 5.0))

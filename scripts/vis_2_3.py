@@ -32,6 +32,6 @@ def create_vtk_unstructured_grid_visualizer(renderer, file_name):
 if __name__ == '__main__':
     window = Window()
 
-    create_vtk_unstructured_grid_visualizer(window.renderer, "files/vtk/self_made.vtk")
+    create_vtk_unstructured_grid_visualizer(window.renderer, "../resources/vtk/self_made.vtk")
 
     window.create((0.0, 0.0, 15.0))

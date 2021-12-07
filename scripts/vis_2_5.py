@@ -81,10 +81,10 @@ def create_slc_visualizer(renderer, file_name, sample_rate):
 if __name__ == '__main__':
     window = Window()
 
-    create_slc_visualizer(window.renderer, "files/slc/vw_knee.slc", 3)
+    create_slc_visualizer(window.renderer, "../resources/slc/vw_knee.slc", 3)
 
     # The assignment states that you have to try a surface value of 0.5,
     # but you can only enter integers higher than 0
-    create_slc_visualizer(window.renderer, "files/slc/neghip.slc", 2)
+    create_slc_visualizer(window.renderer, "../resources/slc/neghip.slc", 2)
 
     window.create((700.0, 0.0, 500.0))

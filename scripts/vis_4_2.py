@@ -98,7 +98,7 @@ if __name__ == '__main__':
     window = Window()
 
     # The original 2D sliced dataset was 256² pixels, but are again sliced to 64² pixels
-    # That is why the files are called quarter
-    create_ct_scan_visualizer(window.renderer, "files/headsq/quarter")
+    # That is why the resources are called quarter
+    create_ct_scan_visualizer(window.renderer, "resources/headsq/quarter")
 
     window.create((200.0, 500.0, 750.0))
