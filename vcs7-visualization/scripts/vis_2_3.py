@@ -1,6 +1,6 @@
 from vtkmodules.all import (
     vtkUnstructuredGridReader, vtkDataSetMapper,
-    vtkProperty, vtkActor,
+    vtkActor,
 )
 
 from utils.window import Window
